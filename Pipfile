@@ -1,0 +1,27 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+mypy = "*"
+sqlalchemy-stubs = "*"
+pytest = "*"
+pytest-cov = "*"
+pylint = "*"
+# black only has pre-releases available, so we have to specify a specific version
+# for now (or enable pre-releases for all packages, which we don't want)
+black = "==19.10b0"
+
+[packages]
+flask = "*"
+flask-httpauth = "*"
+flask-sqlalchemy = "*"
+flask-talisman = "*"
+psycopg2-binary = "*"
+requests = "*"
+sqlalchemy-utils = "*"
+uuid = "*"
+
+[requires]
+python_version = "3.7"
