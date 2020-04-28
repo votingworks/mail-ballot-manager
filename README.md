@@ -1,6 +1,6 @@
 # VxMail Ballot Manager
 
-This is an online tool to manage the printing, mailing, and tracking of ballots to and from voters. 
+This is an online tool to manage the printing, mailing, and tracking of ballots to and from voters.
 
 This tool **does not** provide any features handled by other offline apps such as:
 - manage election ballot data
@@ -12,15 +12,15 @@ This tool **does not** provide any features handled by other offline apps such a
 ## Workflow
 
 1. Admin authenticates into online app.
-1. Admin uploads an **Election Ballot Package** (zip file) which was exported from VxMail Ballot Creator.
+2. Admin uploads an **Election Ballot Package** (zip file) which was exported from [Hand-Marked Paper Ballot Creator](https://github.com/votingworks/hmpb-creator).
 
    Election Ballot Package contains:
-   - election.json (VotingWorks data format for election data: contests, canidates, ballot styles, precincts, etc)
-   - approved official ballots in pdf format:
-     - one for each combination of ballot style and precinct
-     - file name pattern: `ballot-style-7-precinct-8.pdf`
+     - `election.json` - VotingWorks data format for election data: contests, canidates  ballot styles, precincts, etc.
+     - approved official ballots in pdf format:
+       - one for each combination of ballot style and precinct
+       - file name pattern: `ballot-style-7-precinct-8.pdf`
 
-1. Admin uploads **Voter Mailing List**
+3. Admin uploads **Voter Mailing List**
 
    Voter Mailing List contains:
    - id (unique identifier for voter from the jurisdiction)
@@ -29,9 +29,9 @@ This tool **does not** provide any features handled by other offline apps such a
    - ballot style id
    - precinct id
 
-2. Admin approves ballots for print and mailing.
-3. Admin has an interface to track progress of each ballot.
-4. Tracking Data can be exported.
+4. Admin approves ballots for print and mailing.
+5. Admin has an interface to track progress of each ballot.
+6. Tracking Data can be exported.
 
 ## App Screens
 - Upload Election Ballot Package
@@ -54,7 +54,7 @@ This tool **does not** provide any features handled by other offline apps such a
     - ballot delivered to voter (timestamp)
     - ballot sent to jurisdiction (timestamp)
     - ballot delivered to jurisdiction (timestamp)
-    - view ballot (opens PDF)
+    - view ballot link (opens PDF)
   - Filters: (list automatically updated to match filter)
     - ballot style
     - precinct
