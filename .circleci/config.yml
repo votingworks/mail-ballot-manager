@@ -1,0 +1,56 @@
+version: 2
+jobs:
+  build-and-test:
+    docker:
+      - image: circleci/python:3.7.3-node-browsers
+        environment:
+          DATABASE_URL: postgres://root@localhost:5432/mbm-test
+          FLASK_ENV: test
+      - image: circleci/postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: mbm-test
+    steps:
+      - checkout
+      - run:
+          name: install
+          command: |
+            make install install-development
+      - run:
+          name: Install Chrome
+          command: |
+            curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome.deb
+            sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+            rm google-chrome.deb
+      - run:
+          name: create data model
+          command: |
+            make resetdb
+      - run:
+          name: lint server (pylint)
+          command: |
+            make lint-server
+      - run:
+          name: type check
+          command: |
+            make typecheck-server
+      - run:
+          name: check formatting
+          command: |
+            make format-server
+            git diff-index --quiet HEAD -- || (echo "Found unexpected changes!" && git diff && exit 1)
+      - run:
+          name: backend tests
+          command: |
+            make test-server-coverage
+      - run:
+          name: frontend tests
+          command: |
+            make test-client
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-and-test
