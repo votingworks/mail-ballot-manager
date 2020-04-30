@@ -117,5 +117,3 @@ def read_http_origin() -> str:
 
 
 HTTP_ORIGIN = read_http_origin()
-
-
