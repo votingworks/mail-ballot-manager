@@ -1,4 +1,4 @@
-# VxMail Ballot Manager
+# Mail Ballot Manager
 
 This is an online tool to manage the printing, mailing, and tracking of ballots to and from voters.
 
