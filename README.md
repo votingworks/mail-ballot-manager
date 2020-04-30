@@ -3,6 +3,7 @@
 This is an online tool to manage the printing, mailing, and tracking of ballots to and from voters.
 
 This tool **does not** provide any features handled by other offline apps such as:
+
 - manage election ballot data
 - create ballots
 - track ballots received by jurisdiction
@@ -15,14 +16,16 @@ This tool **does not** provide any features handled by other offline apps such a
 2. Admin uploads an **Election Ballot Package** (zip file) which was exported from [Hand-Marked Paper Ballot Creator](https://github.com/votingworks/hmpb-creator).
 
    Election Ballot Package contains:
-     - `election.json` - VotingWorks data format for election data: contests, canidates  ballot styles, precincts, etc.
-     - approved official ballots in pdf format:
-       - one for each combination of ballot style and precinct
-       - file name pattern: `ballot-style-7-precinct-8.pdf`
+
+   - `election.json` - VotingWorks data format for election data: contests, canidates ballot styles, precincts, etc.
+   - approved official ballots in pdf format:
+     - one for each combination of ballot style and precinct
+     - file name pattern: `ballot-style-7-precinct-8.pdf`
 
 3. Admin uploads **Voter Mailing List**
 
    Voter Mailing List contains:
+
    - id (unique identifier for voter from the jurisdiction)
    - name (first name, middle name, last name, suffix)
    - mailing address (street, apt/unit/suite, city, state, zip)
@@ -34,6 +37,7 @@ This tool **does not** provide any features handled by other offline apps such a
 6. Tracking Data can be exported.
 
 ## App Screens
+
 - Upload Election Ballot Package
 - Upload Voter Mailing List
 - Print and Mailing Screen
@@ -43,7 +47,7 @@ This tool **does not** provide any features handled by other offline apps such a
     - precincts with number of voters per ballot style
   - Button to "Print and Sent Ballots to Voters"
 - Ballot Tracking Table
-  - Rows: 
+  - Rows:
     - voter id
     - voter name
     - voter address
@@ -75,6 +79,7 @@ This tool **does not** provide any features handled by other offline apps such a
     - number of voters (matching [insert filter and/or search])
 
 ## Open Questions
+
 - Does this app offer a click to view the ballot for a specific voter?
   - TBD
 - Authenticate with Auth0 (and/or do we send laptop with auth/keys)?
