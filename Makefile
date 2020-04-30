@@ -40,7 +40,7 @@ lint-server:
 	find . -name '*.py' | xargs ${PIPENV} run pylint
 
 test-client:
-	yarn --cwd client lint
+#	yarn --cwd client lint
 	yarn --cwd client test
 
 # To run tests matching a search string: TEST=<search string> make test-server

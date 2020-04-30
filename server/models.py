@@ -1,6 +1,7 @@
-from sqlalchemy.orm import relationship, backref
+# from sqlalchemy.orm import relationship, backref
 import sqlalchemy as sa
-from enum import Enum
+
+# from enum import Enum
 from flask_sqlalchemy import SQLAlchemy, Model
 from flask_sqlalchemy.model import DefaultMeta
 from datetime import datetime as dt
@@ -20,5 +21,3 @@ BaseModel: DefaultMeta = db.Model
 
 # on-delete-cascade is done in SQLAlchemy like this:
 # https://stackoverflow.com/questions/5033547/sqlalchemy-cascade-delete
-
-
