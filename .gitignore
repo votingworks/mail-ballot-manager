@@ -1,2 +1,8 @@
+*.pyc
+*.DS_Store
+node_modules
+.mypy_cache
+.pytest_cache
+.coverage
 node_modules/
 server/config/database.cfg
