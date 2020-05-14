@@ -27,6 +27,11 @@ interface VoterMailBallot {
   ballotStyle: string,
   precinctId: string,
   ballotfile: string, // filepath?
+}
+```
+
+```
+interface VoterMailBallotTracking extends VoterMailBallot {
   ballotCreated: timestamp,
   ballotPrinterReceived: timestamp,
   ballotPrinterPrinted: timestamp
@@ -86,7 +91,7 @@ What user date is provided by default via Auth0?
   printingAndMailingApprovedAt: datetime,
   printingAndMailingApprovedBy: userId,
   ballotTemplates: BallotTemplate[],
-  voters: VoterMailBallot[],
+  voters: VoterMailBallotTracking[],
   uploadedAt: datetime,
 }]
 ```
@@ -98,7 +103,7 @@ What user date is provided by default via Auth0?
   definition: Election,
   packageHash: string,
   ballotTemplates: BallotTemplate[],
-  voterMailingListCSV: string,
+  voterMailingListCSV: string, // VoterMailBallot[] as CSV
 }
 ```
 
