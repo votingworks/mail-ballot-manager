@@ -81,7 +81,7 @@ What user date is provided by default via Auth0?
 ```
 [{
   id: string,
-  definition: Election,
+  definition: Election, // Maybe just the Election fields: title, county, state, and date?
   packageHash: string,
   printingAndMailingApprovedAt?: datetime,
   printingAndMailingApprovedBy?: userId,
