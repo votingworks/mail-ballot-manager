@@ -14,6 +14,7 @@ Election as defined in `@votingworks/ballot-encoder` and the following…
 
 ```
 interface VoterMailBallot {
+  electionId: string, // first 10 of sha256 of election definition
   id: string,
   firstName: string,
   middleName?: string,
@@ -80,14 +81,14 @@ What user date is provided by default via Auth0?
 
 ```
 [{
-  id: string,
+  id: string, // first 10 of sha256 of election definition
   definition: Election, // Maybe just the Election fields: title, county, state, and date?
   packageHash: string,
   printingAndMailingApprovedAt?: datetime,
   printingAndMailingApprovedBy?: userId,
   ballotTemplates: BallotTemplate[],
-  voters: VoterMailBallot[],  // Maybe separate endpoint: /elections/FOO123/voters?start=BAR123
   uploadedAt: datetime,
+  voterCount: number,
 }]
 ```
 
@@ -101,6 +102,25 @@ What user date is provided by default via Auth0?
   voterMailingListCSV: string,
 }
 ```
+
+## Voters API
+
+### `GET /elections/:electionId/voters`
+
+Should this endpoint return all or a subset with offset value?
+
+```
+{
+  voters: VoterMailBallot[]
+}
+```
+
+#### params
+
+- count: number of records to return
+- offset: start of count
+- text search? (see README)
+- filters? (see README)
 
 ## Inserts Data API
 
