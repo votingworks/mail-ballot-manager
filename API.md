@@ -86,7 +86,7 @@ What user date is provided by default via Auth0?
   printingAndMailingApprovedAt?: datetime,
   printingAndMailingApprovedBy?: userId,
   ballotTemplates: BallotTemplate[],
-  voters: VoterMailBallot[],
+  voters: VoterMailBallot[],  // Maybe separate endpoint: /elections/FOO123/voters?start=BAR123
   uploadedAt: datetime,
 }]
 ```
