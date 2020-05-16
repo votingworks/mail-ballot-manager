@@ -47,12 +47,6 @@ db.init_app(app)
 # The order of these imports is important as it defines route precedence.
 # Be careful when re-ordering them.
 
+from .election import *
+from .static import *
 
-@app.route("/")
-def root():
-    return app.send_static_file("index.html")
-
-
-@app.route("/foo")
-def foo():
-    return "bar"
