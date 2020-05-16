@@ -1,0 +1,34 @@
+{
+  "addons": [
+    "heroku-postgresql:hobby-free"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "MBM_SESSION_SECRET": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "hobby"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "hobby"
+    }
+  },
+  "name": "mail-ballot-manager",
+  "scripts": {
+    "postdeploy": "python create.py"
+  },
+  "stack": "heroku-18"
+}
