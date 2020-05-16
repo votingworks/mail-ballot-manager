@@ -2,7 +2,7 @@ import os
 from flask import send_from_directory
 
 from .config import STATIC_FOLDER
-from . import app
+from server import app
 
 # Serve the React App at remaining URLs that aren't static files
 @app.route("/")

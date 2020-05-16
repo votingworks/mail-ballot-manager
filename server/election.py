@@ -1,4 +1,4 @@
-import os, uuid
+import uuid
 from flask import jsonify, request
 
 from . import app

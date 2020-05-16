@@ -1,4 +1,4 @@
-from config import DATABASE_URL
+from server.config import DATABASE_URL
 from server import db
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
