@@ -1,4 +1,3 @@
-from sqlalchemy.orm import relationship, backref
 import sqlalchemy as sa
 
 # from enum import Enum
