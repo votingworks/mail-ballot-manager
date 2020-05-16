@@ -1,0 +1,31 @@
+{
+  "name": "mail-ballot-manager",
+  "private": true,
+  "scripts": {
+    "build": "yarn --cwd client install && yarn --cwd client build",
+    "heroku-postbuild": "yarn build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn --cwd client lint-staged && make typecheck-server"
+    }
+  },
+  "lint-staged": {
+    "*.+(css|graphql|json|less|md|mdx|sass|scss|yaml|yml)": [
+      "prettier --write"
+    ],
+    "*.py": [
+      "python3.7 -m pipenv run black",
+      "python3.7 -m pipenv run pylint"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "sort-package-json": "^1.40.0"
+  }
+}

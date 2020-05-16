@@ -1,7 +1,5 @@
 {
-  "addons": [
-    "heroku-postgresql:hobby-free"
-  ],
+  "addons": ["heroku-postgresql:hobby-free"],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -18,10 +16,6 @@
   },
   "formation": {
     "web": {
-      "quantity": 1,
-      "size": "hobby"
-    },
-    "worker": {
       "quantity": 1,
       "size": "hobby"
     }
