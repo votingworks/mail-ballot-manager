@@ -14,26 +14,27 @@ Election as defined in `@votingworks/ballot-encoder` and the following…
 
 ```
 interface VoterMailBallot {
+  electionId: string, // first 10 of sha256 of election definition
   id: string,
   firstName: string,
-  middleName: string,
+  middleName?: string,
   lastName: string,
-  nameSuffix: string,
+  nameSuffix?: string,
   street1: string,
-  street2: string,
+  street2?: string,
   city: string,
   state: string,
   zipcode: string,
   ballotStyle: string,
   precinctId: string,
   ballotfile: string, // filepath?
-  ballotCreated: timestamp,
-  ballotPrinterReceived: timestamp,
-  ballotPrinterPrinted: timestamp
-  ballotOutboundSent: timestamp
-  ballotOutboundDelivered: timestamp
-  ballotInboundSent: timestamp
-  ballotInboundDelivered: timestamp
+  ballotCreated?: timestamp,
+  ballotPrinterReceived?: timestamp,
+  ballotPrinterPrinted?: timestamp
+  ballotOutboundSent?: timestamp
+  ballotOutboundDelivered?: timestamp
+  ballotInboundSent?: timestamp
+  ballotInboundDelivered?: timestamp
 }
 ```
 
@@ -48,12 +49,12 @@ interface BallotTemplate {
 
 ```
 interface InsertsData {
-  affadavit: string,
-  instructions: string,
-  helpPhone: string,
-  helpEmail: string,
-  helpWeb: string,
-  helpAddress: string,
+  affadavit?: string,
+  instructions?: string,
+  helpPhone?: string,
+  helpEmail?: string,
+  helpWeb?: string,
+  helpAddress?: string,
 }
 ```
 
@@ -80,14 +81,14 @@ What user date is provided by default via Auth0?
 
 ```
 [{
-  id: string,
-  definition: Election,
+  id: string, // first 10 of sha256 of election definition
+  definition: Election, // Maybe just the Election fields: title, county, state, and date?
   packageHash: string,
-  printingAndMailingApprovedAt: datetime,
-  printingAndMailingApprovedBy: userId,
+  printingAndMailingApprovedAt?: datetime,
+  printingAndMailingApprovedBy?: userId,
   ballotTemplates: BallotTemplate[],
-  voters: VoterMailBallot[],
   uploadedAt: datetime,
+  voterCount: number,
 }]
 ```
 
@@ -101,6 +102,25 @@ What user date is provided by default via Auth0?
   voterMailingListCSV: string,
 }
 ```
+
+## Voters API
+
+### `GET /elections/:electionId/voters`
+
+Should this endpoint return all or a subset with offset value?
+
+```
+{
+  voters: VoterMailBallot[]
+}
+```
+
+#### params
+
+- count: number of records to return
+- offset: start of count
+- text search? (see README)
+- filters? (see README)
 
 ## Inserts Data API
 
