@@ -10,10 +10,13 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@votingworks/ballot-encoder": "^1.2.0",
+    "fast-text-encoding": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "yauzl": "^2.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/fast-text-encoding": "^1.0.1",
+    "@types/yauzl": "^2.9.1"
   }
 }
