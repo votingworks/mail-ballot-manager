@@ -20,21 +20,25 @@
       "last 1 safari version"
     ]
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^24.0.0",
     "@types/node": "^12.0.0",
-    "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react": "^16.9.0",
+    "@votingworks/ballot-encoder": "^1.2.0",
+    "fast-text-encoding": "^1.0.2",
     "lint-staged": "^10.2.2",
-    "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "typescript": "~3.7.2"
+    "react": "^16.13.1",
+    "typescript": "~3.7.2",
+    "yauzl": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/fast-text-encoding": "^1.0.1",
+    "@types/yauzl": "^2.9.1"
   }
 }
