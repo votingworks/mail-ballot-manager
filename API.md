@@ -141,9 +141,9 @@ Returns a single election with some more data than the list:
 
 ## Ballot Templates
 
-### `PUT /elections/<election_id>/ballot-style/<ballot_style>/precinct/<precinct>/template`
+### `PUT /elections/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
-### `GET /elections/<election_id>/ballot-style/<ballot_style>/precinct/<precinct>/template`
+### `GET /elections/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
 ## Voters API
 
