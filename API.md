@@ -77,31 +77,73 @@ What user date is provided by default via Auth0?
 
 ## Elections API
 
-### `GET /elections/list`
+### `POST /election/`
+
+```
+{
+  name: string
+}
+```
+
+returns
+
+```
+{
+  id: string // the newly minted election UUID (not meaningful to the user, should not be displayed)
+}
+```
+
+### `GET /elections/`
 
 ```
 [{
-  id: string, // first 10 of sha256 of election definition
-  definition: Election, // Maybe just the Election fields: title, county, state, and date?
+  id: string, // a UUID for this election (not meaningful to the user, should not be displayed)
+  createdAt: datetime,
+  shortIdentifier: string, // a short hex identifier, first 10 of sha256 of election definition
+  name: string,
   packageHash: string,
   printingAndMailingApprovedAt?: datetime,
   printingAndMailingApprovedBy?: userId,
-  ballotTemplates: BallotTemplate[],
-  uploadedAt: datetime,
   voterCount: number,
 }]
 ```
 
-### `POST /election`
+### `GET /elections/<election_id>`
+
+Returns a single election with some more data than the list:
 
 ```
 {
-  definition: Election,
+  id: string,
+  createdAt: datetime,
+  shortIdentifier: string,
+  name: string,
   packageHash: string,
-  ballotTemplates: BallotTemplate[],
-  voterMailingListCSV: string,
+  printingAndMailingApprovedAt?: datetime,
+  printingAndMailingApprovedBy?: userId,
+  voterCount: number,
+  mailingListFiles: [
+	{
+		label: string,
+		uploadedAt: datetime,
+		voterCount: number
+	},
+	...
+  ]
 }
 ```
+
+## Election Definition
+
+### `PUT /elections/<election_id>/definition`
+
+### `GET /elections/<election_id>/definition`
+
+## Ballot Templates
+
+### `PUT /elections/<election_id>/ballot-style/<ballot_style>/precinct/<precinct>/template`
+
+### `GET /elections/<election_id>/ballot-style/<ballot_style>/precinct/<precinct>/template`
 
 ## Voters API
 
