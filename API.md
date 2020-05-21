@@ -93,7 +93,7 @@ returns
 }
 ```
 
-### `GET /elections/`
+### `GET /election/`
 
 ```
 [{
@@ -102,13 +102,13 @@ returns
   shortIdentifier: string, // a short hex identifier, first 10 of sha256 of election definition
   name: string,
   packageHash: string,
-  printingAndMailingApprovedAt?: datetime,
-  printingAndMailingApprovedBy?: userId,
+  approvedAt?: datetime,
+  approvedBy?: userId,
   voterCount: number,
 }]
 ```
 
-### `GET /elections/<election_id>`
+### `GET /election/<election_id>`
 
 Returns a single election with some more data than the list:
 
@@ -124,6 +124,7 @@ Returns a single election with some more data than the list:
   voterCount: number,
   mailingListFiles: [
 	{
+		id: string,
 		label: string,
 		uploadedAt: datetime,
 		voterCount: number
@@ -135,19 +136,19 @@ Returns a single election with some more data than the list:
 
 ## Election Definition
 
-### `PUT /elections/<election_id>/definition`
+### `PUT /election/<election_id>/definition`
 
-### `GET /elections/<election_id>/definition`
+### `GET /election/<election_id>/definition`
 
 ## Ballot Templates
 
-### `PUT /elections/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
+### `PUT /election/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
-### `GET /elections/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
+### `GET /election/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
 ## Voters API
 
-### `GET /elections/:electionId/voters`
+### `GET /election/:electionId/voters`
 
 Should this endpoint return all or a subset with offset value?
 
