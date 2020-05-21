@@ -66,7 +66,7 @@ Whatever Auth0 uses here.
 
 What user date is provided by default via Auth0?
 
-### `GET /auth/me`
+### `GET /api/auth/me`
 
 ```
 {
@@ -77,7 +77,7 @@ What user date is provided by default via Auth0?
 
 ## Elections API
 
-### `POST /election/`
+### `POST /api/election/`
 
 ```
 {
@@ -93,22 +93,22 @@ returns
 }
 ```
 
-### `GET /election/`
+### `GET /api/election/`
 
 ```
 [{
   id: string, // a UUID for this election (not meaningful to the user, should not be displayed)
   createdAt: datetime,
-  shortIdentifier: string, // a short hex identifier, first 10 of sha256 of election definition
+  definitionHash?: string, // the hex SHA256 of the election.json
   name: string,
-  packageHash: string,
+  packageHash: string, // ? this might require a change in how we upload or something else (TBD)
   approvedAt?: datetime,
   approvedBy?: userId,
   voterCount: number,
 }]
 ```
 
-### `GET /election/<election_id>`
+### `GET /api/election/<election_id>`
 
 Returns a single election with some more data than the list:
 
@@ -136,19 +136,19 @@ Returns a single election with some more data than the list:
 
 ## Election Definition
 
-### `PUT /election/<election_id>/definition`
+### `PUT /api/election/<election_id>/definition`
 
-### `GET /election/<election_id>/definition`
+### `GET /api/election/<election_id>/definition`
 
 ## Ballot Templates
 
-### `PUT /election/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
+### `PUT /api/election/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
-### `GET /election/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
+### `GET /api/election/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
 ## Voters API
 
-### `GET /election/:electionId/voters`
+### `GET /api/election/:electionId/voters`
 
 Should this endpoint return all or a subset with offset value?
 
@@ -167,13 +167,13 @@ Should this endpoint return all or a subset with offset value?
 
 ## Inserts Data API
 
-### `GET /election/:electionId/inserts-data`
+### `GET /api/election/:electionId/inserts-data`
 
 ```
 InsertsData
 ```
 
-### `PUT /election/:electionId/inserts-data`
+### `PUT /api/election/:electionId/inserts-data`
 
 ```
 InsertsData
@@ -181,7 +181,7 @@ InsertsData
 
 ## Approve Printing and Mailing API
 
-### `POST /election/:electionId/approve-printing-and-mailing`
+### `POST /api/election/:electionId/approve-printing-and-mailing`
 
 Updates election data:
 
@@ -190,7 +190,7 @@ Updates election data:
 
 ## Export API
 
-### `GET /election/:electionId/export`
+### `GET /api/election/:electionId/export`
 
 TBD if this is one export or multiple. What is exported?
 
