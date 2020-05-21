@@ -10,49 +10,63 @@ This tool **does not** provide any features handled by other offline apps such a
 - provide signature verification
 - scan/tally ballots
 
-## Workflow
+## Workflow from Zero Content
 
 1. Admin authenticates into online app.
-2. Admin uploads an **Election Ballot Package** (zip file) which was exported from [Hand-Marked Paper Ballot Creator](https://github.com/votingworks/hmpb-creator).
+2. Admin is on the Elections screen where there is a button to Create Election.
+3. Admin types name into text field and clicks button to Create Election.
+4. Admin is back on the Elections screen which lists the election they just created and has a button to create a new election. Admin selects the election which they just created.
+5. Admin is on the Election Screen which has three tabs:
 
-   Election Ballot Package contains:
+   - Election (default selected)
+   - Inserts
+   - Voters
 
-   - `election.json` - VotingWorks data format for election data: contests, canidates ballot styles, precincts, etc.
-   - approved official ballots in pdf format:
-     - one for each combination of ballot style and precinct
-     - file name pattern: `ballot-style-7-precinct-8.pdf`
-
-3. Admin uploads **Voter Mailing List**
-
-   Voter Mailing List contains:
-
-   - id (unique identifier for voter from the jurisdiction)
-   - name (first name, middle name, last name, suffix)
-   - mailing address (street, apt/unit/suite, city, state, zip)
-   - ballot style id
-   - precinct id
-
-4. Admin approves ballots for print and mailing.
-5. Admin has an interface to track progress of each ballot.
-6. Tracking Data can be exported.
+6. Admin uploads Election Ballot Package.
+7. Admin edits and proofs the Election Inserts.
+8. Admin uploads a Voter Mailing List.
+9. Election has now has everything necessary to send ballots to the voters. Admin clicks button to Send Batch Ballots.
+10. Admin is prompted to name the batch. Name defaults to current date and time.
+11. Admin clicks send. Upon sending first batch of ballots, they may no longer replace the Election Ballot Package, edit election name, or edit the Insert Templates.
+12. Admin uploads additional Voter Mailing Lists.
+13. Admin sends another batch.
+    - This upload and send batch process repeats until there are no more to send.
+14. Admin has an interface to track progress of each ballot.
+15. Tracking Data can be exported.
 
 ## App Screens
 
-- Upload Election Ballot Package
-- Upload Voter Mailing List
-- Print and Mailing Screen
-  - Summary:
-    - total number of ballots to be printed and sent
-    - ballot styles with number of voters per ballot style
-    - precincts with number of voters per ballot style
-  - Button to "Print and Sent Ballots to Voters"
-- Ballot Tracking Table
+- Auth Screen
+- Elections Screen
+  - Rows:
+    - name
+    - title
+    - date
+    - county
+    - state
+    - status
+  - Create New Election
+- Create Election Screen
+  - Copy Election Data from select existing election (optional)
+  - Name
+  - Create Election button
+- Election Screen
+  - Edit election name
+  - Upload/Replace Election Ballot Package
+  - Election Mail Ballot Stats
+  - List batches sent
+  - Send new batch
+- Election Inserts Screen
+  - Features to edit and proof the Insert Templates. UI TBD.
+- Election Voters Screen
+  - Upload Voter Mailing List
   - Rows:
     - voter id
     - voter name
     - voter address
     - voter ballot style
     - voter precinct
+    - upload file name
     - ballot printed (timestamp)
     - ballot sent to voter (timestamp)
     - ballot delivered to voter (timestamp)
@@ -62,6 +76,7 @@ This tool **does not** provide any features handled by other offline apps such a
   - Filters: (list automatically updated to match filter)
     - ballot style
     - precinct
+    - upload file name
     - ballot printed
     - ballot not printed
     - ballot sent to voter
@@ -81,8 +96,16 @@ This tool **does not** provide any features handled by other offline apps such a
 ## Open Questions
 
 - Does this app offer a click to view the ballot for a specific voter?
-  - TBD
+  - Yes, on demand.
 - Authenticate with Auth0 (and/or do we send laptop with auth/keys)?
   - TBD
 - Is app single or multi-tenant?
   - Default single jurisdiction to id=1 until multi-jurisdiction support.
+- After first batch is sent what Election data can no longer be changed?
+  - Election Ballot Package.
+  - Election Name.
+  - Inserts Content.
+  - Voters who have been sent ballots.
+- Should the upload of a Voter Mailing List do any de-duplicating of voters already uploaded?
+- Should the admin be able to remove voters after then have uploaded a mailing list?
+- When do all Voter Mail Ballot PDFs get created?
