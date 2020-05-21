@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock'
 import fetchJSON from './fetchJSON'
 
 test('passes the URL through as-is to fetch', async () => {
-  fetchMock.getOnce(url => {
+  fetchMock.getOnce((url) => {
     expect(url).toEqual('/example')
     return true
   }, {})
@@ -38,13 +38,13 @@ test('preserves custom headers', async () => {
 })
 
 test('throws on non-ok response', async () => {
-  fetchMock.getOnce('/example', { status: 400 })
-  await expect(fetchJSON('/example')).rejects.toThrowError(
+  fetchMock.getOnce('/example-throws', { status: 400 })
+  await expect(fetchJSON('/example-throws')).rejects.toThrowError(
     'fetch response is not ok'
   )
 })
 
 test('interprets the response as JSON', async () => {
-  fetchMock.getOnce('/example', '{ "status": "ok" }')
-  expect(await fetchJSON('/example')).toEqual({ status: 'ok' })
+  fetchMock.getOnce('/example-json', '{ "status": "ok" }')
+  expect(await fetchJSON('/example-json')).toEqual({ status: 'ok' })
 })
