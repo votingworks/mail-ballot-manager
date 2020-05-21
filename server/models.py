@@ -22,7 +22,7 @@ BaseModel: DefaultMeta = db.Model
 # https://stackoverflow.com/questions/5033547/sqlalchemy-cascade-delete
 
 
-class Election(BaseModel):
+class MailElection(BaseModel):
     id = db.Column(db.String(200), primary_key=True)
     name = db.Column(db.String(200), nullable=False)
 
@@ -41,24 +41,26 @@ class Election(BaseModel):
 
 class BallotTemplate(BaseModel):
     id = db.Column(db.String(200), primary_key=True)
-    election_id = db.Column(
+    mail_election_id = db.Column(
         db.String(200),
-        db.ForeignKey("election.id", ondelete="cascade"),
+        db.ForeignKey(MailElection.id, ondelete="cascade"),
         nullable=False,
     )
     ballot_style = db.Column(db.String(30), nullable=False)
     precinct = db.Column(db.String(30), nullable=False)
 
-    __table_args__ = (db.UniqueConstraint("election_id", "ballot_style", "precinct"),)
+    __table_args__ = (
+        db.UniqueConstraint("mail_election_id", "ballot_style", "precinct"),
+    )
 
     pdf = db.Column(db.LargeBinary)
 
 
 class MailingListFile(BaseModel):
     id = db.Column(db.String(200), primary_key=True)
-    election_id = db.Column(
+    mail_election_id = db.Column(
         db.String(200),
-        db.ForeignKey("election.id", ondelete="cascade"),
+        db.ForeignKey(MailElection.id, ondelete="cascade"),
         nullable=False,
     )
 
@@ -69,7 +71,9 @@ class MailingListFile(BaseModel):
 class Voter(BaseModel):
     id = db.Column(db.String(200), primary_key=True)
     election_id = db.Column(
-        db.String(200), db.ForeignKey(Election.id, ondelete="cascade"), nullable=False,
+        db.String(200),
+        db.ForeignKey(MailElection.id, ondelete="cascade"),
+        nullable=False,
     )
     ballot_template_id = db.Column(
         db.String(200),

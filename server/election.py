@@ -20,16 +20,16 @@ def serialize_election(election):
     }
 
 
-@app.route("/api/election/", methods=["GET"])
-def election_list():
-    return jsonify(elections=[serialize_election(e) for e in Election.query.all()])
+@app.route("/api/mailelection/", methods=["GET"])
+def mailelection_list():
+    return jsonify(elections=[serialize_election(e) for e in MailElection.query.all()])
 
 
-@app.route("/api/election/", methods=["POST"])
-def election_create():
+@app.route("/api/mailelection/", methods=["POST"])
+def mailelection_create():
     election_json = request.get_json()
 
-    election = Election(id=str(uuid.uuid4()), name=election_json["name"])
+    election = MailElection(id=str(uuid.uuid4()), name=election_json["name"])
     db.session.add(election)
     db.session.commit()
 
