@@ -4,6 +4,7 @@ from flask import jsonify, request
 from . import app
 from .models import *
 
+
 def serialize_election(election):
     return {
         "id": election.id,
@@ -15,23 +16,21 @@ def serialize_election(election):
         "helpWeb": election.help_web,
         "helpAddress": election.help_address,
         "approvedAt": election.approved_at,
-        "approvedBy": election.approved_by
+        "approvedBy": election.approved_by,
     }
 
-@app.route("/election/", methods=["GET"])
+
+@app.route("/api/election/", methods=["GET"])
 def election_list():
     return jsonify(elections=[serialize_election(e) for e in Election.query.all()])
 
-@app.route("/election/", methods=["POST"])
+
+@app.route("/api/election/", methods=["POST"])
 def election_create():
     election_json = request.get_json()
 
-    election = Election(
-        id=str(uuid.uuid4()),
-        name=election_json["name"]
-    )
+    election = Election(id=str(uuid.uuid4()), name=election_json["name"])
     db.session.add(election)
     db.session.commit()
 
     return jsonify(serialize_election(election))
-    
