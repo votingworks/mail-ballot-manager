@@ -1,10 +1,15 @@
-import pytest, json, uuid
+import pytest, json, uuid, os
 
 from server import app, db
 from server.models import MailElection
-from .helpers import post_json
+from .helpers import post_json, assert_ok
 
 TEST_ELECTION_NAME = "test election"
+
+with open(
+    os.path.join(os.path.dirname(__file__), "election.json"), "rb"
+) as definition_file:
+    TEST_DEFINITION = definition_file.read()
 
 
 @pytest.fixture
@@ -51,3 +56,13 @@ def test_election_create(client):
     assert election["id"] == election["id"]
     assert election["name"] == TEST_ELECTION_NAME
     assert election["voterCount"] == 0
+
+    rv = client.put(
+        f"/api/mailelection/{election_id}/definition",
+        headers={"Content-Type": "application/json"},
+        data=TEST_DEFINITION,
+    )
+    assert_ok(rv)
+
+    rv = client.get(f"/api/mailelection/{election_id}/definition")
+    assert rv.data == TEST_DEFINITION

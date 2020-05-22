@@ -22,6 +22,7 @@ psycopg2-binary = "*"
 requests = "*"
 sqlalchemy-utils = "*"
 uuid = "*"
+jsonschema = "*"
 
 [requires]
 python_version = "3.7"
