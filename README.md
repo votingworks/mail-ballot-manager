@@ -112,3 +112,26 @@ This tool **does not** provide any features handled by other offline apps such a
 - How does a voter confirm that their ballot hasn't been modified from the approved template?
 - Can election official view Voter Mail Ballot PDF after print and mail has been approved?
 - Are Voter Mail Ballots created automatically after data is uploaded or on demand (for preview and pre-sending to mail house)?
+
+## Running in Development
+
+On Linux for now.
+
+Get your dev environment ready:
+
+```
+cp server/config/database.cfg.dev server/config/database.cfg
+make dev-environment
+```
+
+Whenever you want to reset the database:
+
+```
+make resetdb
+```
+
+Running the Python backend and React front-end with auto-reload:
+
+```
+./run-dev.sh
+```
