@@ -3,6 +3,8 @@ from flask import jsonify, request
 
 from . import app, API_URL_PREFIX
 from .models import *
+from .util.jsonschema import validate
+from .schemas import ELECTION_SCHEMA
 
 
 def serialize_election(election, expand=False):
@@ -53,3 +55,22 @@ def mailelection_one(election_id):
             MailElection.query.filter_by(id=election_id).one(), expand=True
         )
     )
+
+
+@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/definition", methods=["GET"])
+def mailelection_definition_get(election_id):
+    election = MailElection.query.filter_by(id=election_id).one()
+    return election.definition, 200, {"Content-Type": "application/json"}
+
+
+@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/definition", methods=["PUT"])
+def mailelection_definition_set(election_id):
+    election_data = request.data.decode("utf-8")
+    election_json = json.loads(election_data)
+    validate(schema=ELECTION_SCHEMA, instance=election_json)
+
+    election = MailElection.query.filter_by(id=election_id).one()
+    election.definition = election_data
+    db.session.commit()
+
+    return jsonify(status="ok")
