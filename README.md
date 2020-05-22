@@ -109,3 +109,6 @@ This tool **does not** provide any features handled by other offline apps such a
 - Should the upload of a Voter Mailing List do any de-duplicating of voters already uploaded?
 - Should the admin be able to remove voters after then have uploaded a mailing list?
 - When do all Voter Mail Ballot PDFs get created?
+- How does a voter confirm that their ballot hasn't been modified from the approved template?
+- Can election official view Voter Mail Ballot PDF after print and mail has been approved?
+- Are Voter Mail Ballots created automatically after data is uploaded or on demand (for preview and pre-sending to mail house)?

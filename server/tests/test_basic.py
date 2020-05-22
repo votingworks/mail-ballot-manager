@@ -10,4 +10,4 @@ def client():
 
 def test_index(client):
     rv = client.get("/")
-    assert b"VxMail (by VotingWorks)" in rv.data
+    assert b"VxMail Mail Ballot Manager - VotingWorks" in rv.data
