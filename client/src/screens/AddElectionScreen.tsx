@@ -33,7 +33,7 @@ const AddElectionScreen = () => {
   const handleCreateElection: FormEventFunction = async (event) => {
     event.preventDefault()
     setIsUploading(true)
-    const { electionId } = await createElection({ electionName })
+    const { electionId } = await createElection({ name: electionName })
     const election = await getElection(electionId)
     addElection(election)
     history.push(routerPaths.election({ electionId }))

@@ -1,14 +1,9 @@
 import { createContext, RefObject } from 'react'
-import {
-  ElectionsListItem,
-  OptionalUser,
-  SaveUser,
-  Voters,
-} from '../config/types'
+import { MailElection, OptionalUser, SaveUser, Voters } from '../config/types'
 
 interface AppContextInterface {
-  addElection: (election: ElectionsListItem) => void
-  elections: ElectionsListItem[]
+  addElection: (election: MailElection) => void
+  elections: MailElection[]
   printBallotRef?: RefObject<HTMLElement>
   saveUser: SaveUser
   signOut: () => void
@@ -32,7 +27,7 @@ export const getElection = ({
   elections,
   electionId,
 }: {
-  elections: ElectionsListItem[]
+  elections: MailElection[]
   electionId: string
 }) => elections.find((e) => e.id === electionId)!
 

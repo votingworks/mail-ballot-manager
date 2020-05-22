@@ -31,13 +31,13 @@ const ElectionsScreen = () => {
         </thead>
         <tbody>
           {elections.map((election) => {
-            const { name, createdAt, title, date } = election
+            const { name, createdAt, electionTitle, electionDate } = election
             return (
               <tr key={election.id}>
                 <td>{truncateString(name, 20)}</td>
                 <td>{shortDate(createdAt)}</td>
-                <td>{title || '-'}</td>
-                <td>{date ? date.toString() : '-'}</td>
+                <td>{electionTitle || '-'}</td>
+                <td>{electionDate ? electionDate.toString() : '-'}</td>
                 <td>STATUS</td>
                 <td>
                   <LinkButton

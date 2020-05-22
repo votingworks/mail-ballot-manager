@@ -11,11 +11,11 @@ import { shortDate } from '../utils/datetime'
 const ElectionScreen = () => {
   const { electionId } = useParams<ElectionScreenProps>()
   const { elections, voters } = useContext(AppContext)
-  const { name, createdAt, title, date } = getElection({
+  const { name, createdAt, electionTitle, electionDate } = getElection({
     elections: elections!,
     electionId,
   })
-  const hasElectionBallotPackage = !!title && !!date
+  const hasElectionBallotPackage = !!electionTitle && !!electionDate
   const hasVoters = !!voters.length
   const readyToPrint = hasElectionBallotPackage && hasVoters
 
@@ -28,7 +28,7 @@ const ElectionScreen = () => {
       </p>
       {hasElectionBallotPackage ? (
         <p>
-          {title}, {shortDate(date!)}
+          {electionTitle}, {shortDate(electionDate!)}
         </p>
       ) : (
         <p>

@@ -25,6 +25,7 @@ export interface VoterScreenProps extends ElectionScreenProps {
 
 // User
 export interface User {
+  id: string
   email: string
 }
 export type OptionalUser = User | undefined
@@ -56,6 +57,14 @@ export interface Voter {
 }
 export type Voters = Voter[]
 
+export interface VoterMailingListFile {
+  id: string
+  label: string
+  fileName: string
+  uploadedAt: string
+  voterCount: number
+}
+
 // Elections List
 
 export interface BallotTemplate {
@@ -65,16 +74,33 @@ export interface BallotTemplate {
   precinct: Precinct
 }
 
-export interface ElectionsListItem {
-  id: string // first 10 sha256
-  name: string
+export interface MailElection {
+  id: string
   createdAt: string
-  title?: string
-  date?: string
-  definition?: ElectionDefinition
-  packageHash?: string
+  electionHash: string
+  name: string
+  electionTitle: string
+  electionDate: string
+  packageHash: string
   approvedAt?: string
   approvedBy?: string
-  ballotTemplates?: BallotTemplate[] // TODO: not optional
-  voterCount?: number
+  voterCount: number
+  mailingListFiles?: VoterMailingListFile[]
+  ballotBatches?: MailBallotBatch[]
+}
+
+export interface InsertsData {
+  affidavit: string
+  instructions: string
+  helpPhone: string
+  helpEmail: string
+  helpWeb: string
+  helpAddress: string
+}
+
+export interface MailBallotBatch {
+  id: string
+  label: string
+  sentAt: string
+  voterCount: number
 }
