@@ -1,6 +1,5 @@
 import sqlalchemy as sa
-
-# from enum import Enum
+from sqlalchemy.orm import relationship
 from flask_sqlalchemy import SQLAlchemy, Model
 from flask_sqlalchemy.model import DefaultMeta
 from datetime import datetime as dt
@@ -37,6 +36,8 @@ class MailElection(BaseModel):
 
     approved_at = db.Column(sa.DateTime, nullable=True)
     approved_by = db.Column(db.Text, nullable=True)
+
+    voters = relationship("Voter", backref="election", passive_deletes=True)
 
 
 class BallotTemplate(BaseModel):
