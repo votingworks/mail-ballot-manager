@@ -13,6 +13,8 @@ from .config import (
     HTTP_ORIGIN,
 )
 
+API_URL_PREFIX = "/api"
+
 from .models import db
 
 if FLASK_ENV not in DEVELOPMENT_ENVS:
@@ -49,4 +51,3 @@ db.init_app(app)
 
 import server.election
 import server.static
-
