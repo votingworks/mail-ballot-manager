@@ -5,6 +5,7 @@ from . import app, API_URL_PREFIX
 from .models import *
 from .util.jsonschema import validate
 from .schemas import ELECTION_SCHEMA
+from .security import with_mailelection_admin
 
 
 def serialize_election(election, expand=False):
@@ -49,28 +50,47 @@ def mailelection_create():
 
 
 @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>", methods=["GET"])
-def mailelection_one(election_id):
-    return jsonify(
-        serialize_election(
-            MailElection.query.filter_by(id=election_id).one(), expand=True
-        )
-    )
+@with_mailelection_admin
+def mailelection_one(election):
+    return jsonify(serialize_election(election, expand=True))
 
 
 @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/definition", methods=["GET"])
-def mailelection_definition_get(election_id):
-    election = MailElection.query.filter_by(id=election_id).one()
+@with_mailelection_admin
+def mailelection_definition_get(election):
     return election.definition, 200, {"Content-Type": "application/json"}
 
 
 @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/definition", methods=["PUT"])
-def mailelection_definition_set(election_id):
+@with_mailelection_admin
+def mailelection_definition_set(election):
     election_data = request.data.decode("utf-8")
     election_json = json.loads(election_data)
     validate(schema=ELECTION_SCHEMA, instance=election_json)
 
-    election = MailElection.query.filter_by(id=election_id).one()
     election.definition = election_data
     db.session.commit()
 
     return jsonify(status="ok")
+
+
+# @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template", methods=["PUT"])
+# @with_mailelection_admin
+# def ballot_template_set(election, ballot_style_id, precinct_id):
+#     pass
+
+# @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template", methods=["GET"])
+# @with_mailelection_admin
+# def ballot_template_get(election, ballot_style_id, precinct_id):
+#     pass
+
+
+# @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/voters/file", methods=["PUT"])
+# @with_mailelection_admin
+# def voters_file_set(election):
+#     pass
+
+# @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/voters", methods=["GET"])
+# @with_mailelection_admin
+# def voters(election):
+#     pass
