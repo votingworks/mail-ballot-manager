@@ -47,11 +47,11 @@ class BallotTemplate(BaseModel):
         db.ForeignKey(MailElection.id, ondelete="cascade"),
         nullable=False,
     )
-    ballot_style = db.Column(db.String(30), nullable=False)
-    precinct = db.Column(db.String(30), nullable=False)
+    ballot_style_id = db.Column(db.String(30), nullable=False)
+    precinct_id = db.Column(db.String(30), nullable=False)
 
     __table_args__ = (
-        db.UniqueConstraint("mail_election_id", "ballot_style", "precinct"),
+        db.UniqueConstraint("mail_election_id", "ballot_style_id", "precinct_id"),
     )
 
     pdf = db.Column(db.LargeBinary)

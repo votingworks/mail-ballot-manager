@@ -11,6 +11,11 @@ with open(
 ) as definition_file:
     TEST_DEFINITION = definition_file.read()
 
+with open(
+    os.path.join(os.path.dirname(__file__), "ballotTemplate.pdf"), "rb"
+) as ballot_template_file:
+    TEST_BALLOT_TEMPLATE = ballot_template_file.read()
+
 
 @pytest.fixture
 def client():
@@ -37,7 +42,7 @@ def test_election_list(client, election_id):
     )
 
 
-def test_election_create(client):
+def test_election_setup(client):
     rv = post_json(client, "/api/mailelection/", {"name": TEST_ELECTION_NAME})
     election = json.loads(rv.data)
     assert election["id"]
@@ -66,3 +71,15 @@ def test_election_create(client):
 
     rv = client.get(f"/api/mailelection/{election_id}/definition")
     assert rv.data == TEST_DEFINITION
+
+    rv = client.put(
+        f"/api/mailelection/{election_id}/ballot-style/12/precinct/21/template",
+        headers={"Content-Type": "application/pdf"},
+        data=TEST_BALLOT_TEMPLATE,
+    )
+    assert_ok(rv)
+
+    rv = client.get(
+        f"/api/mailelection/{election_id}/ballot-style/12/precinct/21/template"
+    )
+    assert rv.data == TEST_BALLOT_TEMPLATE
