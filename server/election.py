@@ -147,14 +147,3 @@ def ballot_template_get(election, ballot_style_id, precinct_id):
     response = make_response(ballot_template.pdf)
     response.headers.set("Content-Type", "application/pdf")
     return response
-
-
-# @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/voters/file", methods=["PUT"])
-# @with_mailelection_admin
-# def voters_file_set(election):
-#    pass
-
-# @app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/voters", methods=["GET"])
-# @with_mailelection_admin
-# def voters(election):
-#    pass

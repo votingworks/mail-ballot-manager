@@ -71,16 +71,17 @@ class MailingListFile(BaseModel):
 
 class Voter(BaseModel):
     id = db.Column(db.String(200), primary_key=True)
-    election_id = db.Column(
+    mail_election_id = db.Column(
         db.String(200),
         db.ForeignKey(MailElection.id, ondelete="cascade"),
         nullable=False,
     )
-    ballot_template_id = db.Column(
-        db.String(200),
-        db.ForeignKey(BallotTemplate.id, ondelete="cascade"),
-        nullable=False,
-    )
+
+    # this is the voter ID in the state's EMS
+    voter_id = db.Column(db.String(200), nullable=False)
+
+    ballot_style_id = db.Column(db.String(30), nullable=False)
+    precinct_id = db.Column(db.String(30), nullable=False)
 
     first_name = db.Column(db.String(200), nullable=True)
     middle_name = db.Column(db.String(200), nullable=True)
@@ -99,3 +100,5 @@ class Voter(BaseModel):
     outbound_delivered_at = db.Column(sa.DateTime, nullable=True)
     inbound_sent_at = db.Column(sa.DateTime, nullable=True)
     inbound_delivered_at = db.Column(sa.DateTime, nullable=True)
+
+    __table_args__ = (db.UniqueConstraint("mail_election_id", "voter_id"),)

@@ -50,4 +50,6 @@ db.init_app(app)
 # Be careful when re-ordering them.
 
 import server.election
+import server.voters
+
 import server.static
