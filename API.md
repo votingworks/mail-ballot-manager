@@ -106,6 +106,12 @@ Returns a single election with some more data than the list:
 
 ## Voters API
 
+### `PUT /api/mailelection/<election_id>/voters/file`
+
+Load the voters file -- only one file for now.
+
+The voters file is a CSV with fields to be found in `server/voters.py`
+
 ### `GET /api/mailelection/:electionId/voters`
 
 Should this endpoint return all or a subset with offset value?
