@@ -35,13 +35,13 @@ VOTERS_COLUMNS = [
 ]
 
 # TODO: this needs to be (1) a background process that (2) streams the file.
-def process_voter_file_content(session, election, content):
+def process_voter_file_content(session, mailelection, content):
     voters_csv = parse_csv(content, VOTERS_COLUMNS)
 
     for row in voters_csv:
         voter = Voter(
             id=str(uuid.uuid4()),
-            mail_election_id=election.id,
+            mail_election_id=mailelection.id,
             voter_id=row[VOTER_ID],
             ballot_style_id=row[BALLOT_STYLE_ID],
             precinct_id=row[PRECINCT_ID],
@@ -77,19 +77,21 @@ def serialize_voter(voter):
     }
 
 
-@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/voters/file", methods=["PUT"])
+@app.route(
+    f"{API_URL_PREFIX}/mailelection/<mailelection_id>/voters/file", methods=["PUT"]
+)
 @with_mailelection_admin
-def voters_file_set(election):
+def voters_file_set(mailelection):
     Voter.query.delete()
-    process_voter_file_content(db.session, election, request.data.decode("utf-8"))
+    process_voter_file_content(db.session, mailelection, request.data.decode("utf-8"))
     db.session.commit()
 
     return jsonify(status="ok")
 
 
-@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/voters", methods=["GET"])
+@app.route(f"{API_URL_PREFIX}/mailelection/<mailelection_id>/voters", methods=["GET"])
 @with_mailelection_admin
-def voters(election):
-    voters = Voter.query.filter_by(mail_election_id=election.id).all()
+def voters(mailelection):
+    voters = Voter.query.filter_by(mail_election_id=mailelection.id).all()
 
     return jsonify(voters=[serialize_voter(v) for v in voters])

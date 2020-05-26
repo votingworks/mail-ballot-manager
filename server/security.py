@@ -11,14 +11,14 @@ def with_mailelection_admin(route: Callable):
 
     @functools.wraps(route)
     def wrapper(*args, **kwargs):
-        if "election_id" not in kwargs:
-            raise Exception(f"expected 'election_id' in kwargs but got: {kwargs}")
+        if "mailelection_id" not in kwargs:
+            raise Exception(f"expected 'mailelection_id' in kwargs but got: {kwargs}")
 
-        election = MailElection.query.get_or_404(kwargs.pop("election_id"))
+        mailelection = MailElection.query.get_or_404(kwargs.pop("mailelection_id"))
 
         ## TODO: permission check
 
-        kwargs["election"] = election
+        kwargs["mailelection"] = mailelection
 
         return route(*args, **kwargs)
 
