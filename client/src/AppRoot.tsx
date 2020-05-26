@@ -6,11 +6,11 @@ import AppContext from './contexts/AppContext'
 import { Storage } from './utils/Storage'
 
 import MailBallotManager, { routerPaths } from './components/MailBallotManager'
-import { User, OptionalUser, ElectionsListItem, Voters } from './config/types'
+import { User, OptionalUser, MailElection, Voters } from './config/types'
 
 export interface AppStorage {
   user?: User
-  elections: ElectionsListItem[]
+  elections: MailElection[]
   voters: Voters
 }
 
@@ -55,13 +55,13 @@ const AppRoot = ({ storage }: Props) => {
     user === undefined ? signOut() : storage.set(userStorageKey, user)
   }
 
-  const saveElections = (newElections: ElectionsListItem[]) => {
+  const saveElections = (newElections: MailElection[]) => {
     setElections(newElections)
     newElections === undefined
       ? storage.remove(electionsStorageKey)
       : storage.set(electionsStorageKey, newElections)
   }
-  const addElection = (newElection: ElectionsListItem) => {
+  const addElection = (newElection: MailElection) => {
     const newElections = elections.concat([newElection])
     saveElections(newElections)
   }

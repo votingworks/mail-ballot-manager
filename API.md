@@ -18,7 +18,7 @@ Whatever Auth0 uses here.
 
 ## Users API
 
-What user date is provided by default via Auth0?
+What user data is provided by default via Auth0?
 
 ### `GET /api/auth/me`
 
@@ -51,7 +51,7 @@ returns
 
 ```
 [{
-  id: string, // a UUID for this election (not meaningful to the user, should not be displayed)
+  id: string,
   createdAt: datetime,
   electionHash?: string, // the hex SHA256 of the election.json
   name: string,
@@ -72,22 +72,30 @@ Returns a single election with some more data than the list:
 {
   id: string,
   createdAt: datetime,
-  shortIdentifier: string,
+  electionHash: string,
   name: string,
   electionTitle: string,
   electionDate: string,
   packageHash: string,
-  printingAndMailingApprovedAt?: datetime,
-  printingAndMailingApprovedBy?: userId,
+  approvedAt?: datetime,
+  approvedBy?: userId,
   voterCount: number,
   mailingListFiles: [
-	{
-		id: string,
-		label: string,
-		uploadedAt: datetime,
-		voterCount: number
-	},
-	...
+  {
+    id: string,
+    label: string,
+    fileName: string,
+    uploadedAt: datetime,
+    voterCount: number
+  },
+  mailBatches: [
+  {
+    id: string,
+    label: string,
+    sentAt: datetime,
+    voterCount: number
+  },
+  ...
   ]
 }
 ```
@@ -96,7 +104,11 @@ Returns a single election with some more data than the list:
 
 ### `PUT /api/mailelection/<mailelection_id>/definition`
 
+Accepts json string of Election as the `PUT` body, content-type `application/json`
+
 ### `GET /api/mailelection/<mailelection_id>/definition`
+
+Returns json string of Election
 
 ## Ballot Templates
 
@@ -143,14 +155,15 @@ InsertsData
 InsertsData
 ```
 
-## Approve Printing and Mailing API
+## Mail Ballot Batches
 
-### `POST /api/mailelection/<mailelection_id>/approve-printing-and-mailing`
+### `POST /api/mailelection/<mailelection_id>/create-batch-from-unassigned`
 
-Updates election data:
+### `POST /api/mailelection/<mailelection_id>/batches/:batchId/send`
 
-- printingAndMailingApprovedAt: datetime,
-- printingAndMailingApprovedBy: userId,
+### `GET /api/mailelection/<mailelection_id>/batches`
+
+Returns all batches of mailed ballots.
 
 ## Export API
 
