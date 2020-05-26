@@ -49,7 +49,7 @@ db.init_app(app)
 # The order of these imports is important as it defines route precedence.
 # Be careful when re-ordering them.
 
-import server.election
+import server.mailelection
 import server.voters
 
 import server.static

@@ -8,29 +8,31 @@ from .schemas import ELECTION_SCHEMA
 from .security import with_mailelection_admin
 
 
-def serialize_election(election, expand=False):
-    election_obj = {
-        "id": election.id,
-        "createdAt": election.created_at,
-        "name": election.name,
-        "approvedAt": election.approved_at,
-        "approvedBy": election.approved_by,
+def serialize_mailelection(mailelection, expand=False):
+    mailelection_obj = {
+        "id": mailelection.id,
+        "createdAt": mailelection.created_at,
+        "name": mailelection.name,
+        "approvedAt": mailelection.approved_at,
+        "approvedBy": mailelection.approved_by,
         ## TODO: review efficiency here to make sure it doesn't load all voters
         ## https://github.com/votingworks/mail-ballot-manager/issues/23
-        "voterCount": len(election.voters),
+        "voterCount": len(mailelection.voters),
     }
 
-    if election.definition:
-        definition = json.loads(election.definition)
-        election_obj["electionHash"] = hashlib.sha256(election.definition).hexdigest()
-        election_obj["electionTitle"] = definition["title"]
-        election_obj["electionDate"] = definition["date"]
+    if mailelection.definition:
+        definition = json.loads(mailelection.definition)
+        mailelection_obj["electionHash"] = hashlib.sha256(
+            mailelection.definition
+        ).hexdigest()
+        mailelection_obj["electionTitle"] = definition["title"]
+        mailelection_obj["electionDate"] = definition["date"]
 
     if expand:
         # TODO: add mailingListFiles when we have them.
         pass
 
-    return election_obj
+    return mailelection_obj
 
 
 def get_ballot_style(election_definition, ballot_style_id, precinct_id):
@@ -47,52 +49,58 @@ def get_ballot_style(election_definition, ballot_style_id, precinct_id):
 
 @app.route(f"{API_URL_PREFIX}/mailelection/", methods=["GET"])
 def mailelection_list():
-    return jsonify(elections=[serialize_election(e) for e in MailElection.query.all()])
+    return jsonify(
+        elections=[serialize_mailelection(me) for me in MailElection.query.all()]
+    )
 
 
 @app.route(f"{API_URL_PREFIX}/mailelection/", methods=["POST"])
 def mailelection_create():
     election_json = request.get_json()
 
-    election = MailElection(id=str(uuid.uuid4()), name=election_json["name"])
-    db.session.add(election)
+    mailelection = MailElection(id=str(uuid.uuid4()), name=election_json["name"])
+    db.session.add(mailelection)
     db.session.commit()
 
-    return jsonify(id=election.id)
+    return jsonify(id=mailelection.id)
 
 
-@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>", methods=["GET"])
+@app.route(f"{API_URL_PREFIX}/mailelection/<mailelection_id>", methods=["GET"])
 @with_mailelection_admin
-def mailelection_one(election):
-    return jsonify(serialize_election(election, expand=True))
+def mailelection_one(mailelection):
+    return jsonify(serialize_mailelection(mailelection, expand=True))
 
 
-@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/definition", methods=["GET"])
+@app.route(
+    f"{API_URL_PREFIX}/mailelection/<mailelection_id>/definition", methods=["GET"]
+)
 @with_mailelection_admin
-def mailelection_definition_get(election):
-    return election.definition, 200, {"Content-Type": "application/json"}
+def mailelection_definition_get(mailelection):
+    return mailelection.definition, 200, {"Content-Type": "application/json"}
 
 
-@app.route(f"{API_URL_PREFIX}/mailelection/<election_id>/definition", methods=["PUT"])
+@app.route(
+    f"{API_URL_PREFIX}/mailelection/<mailelection_id>/definition", methods=["PUT"]
+)
 @with_mailelection_admin
-def mailelection_definition_set(election):
+def mailelection_definition_set(mailelection):
     election_data = request.data.decode("utf-8")
     election_json = json.loads(election_data)
     validate(schema=ELECTION_SCHEMA, instance=election_json)
 
-    election.definition = election_data
+    mailelection.definition = election_data
     db.session.commit()
 
     return jsonify(status="ok")
 
 
 @app.route(
-    f"{API_URL_PREFIX}/mailelection/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template",
+    f"{API_URL_PREFIX}/mailelection/<mailelection_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template",
     methods=["PUT"],
 )
 @with_mailelection_admin
-def ballot_template_set(election, ballot_style_id, precinct_id):
-    if not election.definition:
+def ballot_template_set(mailelection, ballot_style_id, precinct_id):
+    if not mailelection.definition:
         return (
             jsonify(
                 error="ballot templates can only be uploaded after the election definition has been uploaded."
@@ -100,7 +108,7 @@ def ballot_template_set(election, ballot_style_id, precinct_id):
             409,
         )
 
-    election_definition = json.loads(election.definition)
+    election_definition = json.loads(mailelection.definition)
     ballot_style = get_ballot_style(election_definition, ballot_style_id, precinct_id)
 
     if not ballot_style:
@@ -112,7 +120,7 @@ def ballot_template_set(election, ballot_style_id, precinct_id):
         )
 
     args = {
-        "mail_election_id": election.id,
+        "mail_election_id": mailelection.id,
         "ballot_style_id": ballot_style_id,
         "precinct_id": precinct_id,
     }
@@ -130,13 +138,13 @@ def ballot_template_set(election, ballot_style_id, precinct_id):
 
 
 @app.route(
-    f"{API_URL_PREFIX}/mailelection/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template",
+    f"{API_URL_PREFIX}/mailelection/<mailelection_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template",
     methods=["GET"],
 )
 @with_mailelection_admin
-def ballot_template_get(election, ballot_style_id, precinct_id):
+def ballot_template_get(mailelection, ballot_style_id, precinct_id):
     ballot_template = BallotTemplate.query.filter_by(
-        mail_election_id=election.id,
+        mail_election_id=mailelection.id,
         ballot_style_id=ballot_style_id,
         precinct_id=precinct_id,
     ).one_or_none()
