@@ -64,7 +64,7 @@ returns
 }]
 ```
 
-### `GET /api/mailelection/<election_id>`
+### `GET /api/mailelection/<mailelection_id>`
 
 Returns a single election with some more data than the list:
 
@@ -94,25 +94,25 @@ Returns a single election with some more data than the list:
 
 ## Election Definition
 
-### `PUT /api/mailelection/<election_id>/definition`
+### `PUT /api/mailelection/<mailelection_id>/definition`
 
-### `GET /api/mailelection/<election_id>/definition`
+### `GET /api/mailelection/<mailelection_id>/definition`
 
 ## Ballot Templates
 
-### `PUT /api/mailelection/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
+### `PUT /api/mailelection/<mailelection_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
-### `GET /api/mailelection/<election_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
+### `GET /api/mailelection/<mailelection_id>/ballot-style/<ballot_style_id>/precinct/<precinct_id>/template`
 
 ## Voters API
 
-### `PUT /api/mailelection/<election_id>/voters/file`
+### `PUT /api/mailelection/<mailelection_id>/voters/file`
 
 Load the voters file -- only one file for now.
 
 The voters file is a CSV with fields to be found in `server/voters.py`
 
-### `GET /api/mailelection/:electionId/voters`
+### `GET /api/mailelection/<mailelection_id>/voters`
 
 Should this endpoint return all or a subset with offset value?
 
@@ -131,13 +131,13 @@ Should this endpoint return all or a subset with offset value?
 
 ## Inserts Data API
 
-### `GET /api/mailelection/:electionId/inserts-data`
+### `GET /api/mailelection/<mailelection_id>/inserts-data`
 
 ```
 InsertsData
 ```
 
-### `PUT /api/mailelection/:electionId/inserts-data`
+### `PUT /api/mailelection/<mailelection_id>/inserts-data`
 
 ```
 InsertsData
@@ -145,7 +145,7 @@ InsertsData
 
 ## Approve Printing and Mailing API
 
-### `POST /api/mailelection/:electionId/approve-printing-and-mailing`
+### `POST /api/mailelection/<mailelection_id>/approve-printing-and-mailing`
 
 Updates election data:
 
@@ -154,7 +154,7 @@ Updates election data:
 
 ## Export API
 
-### `GET /api/mailelection/:electionId/export`
+### `GET /api/mailelection/<mailelection_id>/export`
 
 TBD if this is one export or multiple. What is exported?
 
