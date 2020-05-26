@@ -117,21 +117,91 @@ This tool **does not** provide any features handled by other offline apps such a
 
 On Linux for now.
 
-Get your dev environment ready:
+1. Get your dev environment ready:
 
-```
-cp server/config/database.cfg.dev server/config/database.cfg
-make dev-environment
-```
+   cp server/config/database.cfg.dev server/config/database.cfg
+   make dev-environment
+
+2. Run the Python backend and React front-end with auto-reload:
+
+   ./run-dev.sh
 
 Whenever you want to reset the database:
 
-```
-make resetdb
-```
+    make resetdb
 
-Running the Python backend and React front-end with auto-reload:
+## Developer Setup on Mac with a Linux VM
 
-```
-./run-dev.sh
-```
+On the host machine, setup a VM using Parallels:
+
+1.  Download Ubuntu Desktop `.iso` image file: [ubuntu-18.04.4-desktop-amd64.iso](https://releases.ubuntu.com/18.04.4/ubuntu-18.04.4-desktop-amd64.iso)
+2.  Install Parallels.
+    ```
+    brew cask install parallels
+    ```
+3.  Create Parallels VM using the Ubuntu iso image file.
+
+On the VM:
+
+1.  Install NVM (curl is an install dependency):
+    ```
+    sudo apt install curl
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+    ```
+    Close terminal and reopen.
+    ```
+    nvm install 12
+    ```
+2.  Install `git`.
+3.  `git clone` this project on the VM.
+4.  Follow steps above for "Running in Development".
+5.  Setup Github access to allow pushing to repos.
+
+### Optional Steps
+
+1. Install gpg to sign commits.
+2. Setup VS Code to use ["Remote - SSH"](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension to be able to edit files and access the terminal from within VS Code… and forward ports such that you can use a native browser as well.
+3. Setup dotfiles to your preference.
+
+### Setup SSH Host Shortcut
+
+Set up ssh host shortcut such that you can type `ssh vx` to connect to VM:
+
+1.  Open Settings in the VM (click the caret in the top right to reveal menu to click button to open "Settings").
+2.  Open Network in sidebar.
+3.  Click the gear next to the "Connected" in the "Wired" section.
+4.  Copy the IP address. Eg. `10.211.55.3`.
+5.  On the host machine, create/open the file `~/.ssh/config` and add:
+    ```
+    Host vx
+      HostName 10.211.55.3
+    ```
+6.  Confirm this works by typing `ssh vx` to ssh into the VM. If your username is different on the VM than the host, you'll need to use `ssh USER@vx`.
+7.  Copy ssh public key fron the host machine `~/.ssh/id_rsa.pub` to the VM `~/.ssh/authorized_keys` for connecting without entering a password.
+    ```
+    `scp ~/.ssh/id_rsa.pub vx:~/.ssh/authorized_keys`
+    ```
+
+### Troubleshooting
+
+#### Error message: `Error: ENOSPC: System limit for number of file watchers reached`
+
+[Increase the amount of watchers](https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers#the-technical-details):
+
+    echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+    sudo sysctl -p
+
+### Can't find `pipenv`?
+
+You may need to update your `PATH` to include `~/.local/bin/`:
+
+    export PATH="${HOME}/.local/bin:${PATH}"
+
+### Issues Installing Yarn via make?
+
+Instead of `sudo npm install -g yarn`, try this:
+
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    sudo apt update
+    sudo apt install yarn
