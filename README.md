@@ -115,23 +115,74 @@ This tool **does not** provide any features handled by other offline apps such a
 
 ## Running in Development
 
-On Linux for now.
-
 Get your dev environment ready:
 
 ```
 cp server/config/database.cfg.dev server/config/database.cfg
+```
+
+Make sure you have Node.JS and [yarn](https://yarnpkg.com/) installed.
+
+For the following commands, you have two options:
+
+1. Run everything on your host machine (only Linux is supported for now)
+2. Run everything in [Docker](https://www.docker.com/)
+
+On your host machine:
+
+```
 make dev-environment
 ```
 
+On Docker:
+
+```
+make docker-dev
+```
+
+When getting started, you'll need to initialize the DB:
+
+On your host machine:
+
+```
+make initdevdb
+```
+
+On Docker:
+
+```
+make docker-initdevdb
+```
+
 Whenever you want to reset the database:
+
+On your host machine:
 
 ```
 make resetdb
 ```
 
-Running the Python backend and React front-end with auto-reload:
+On Docker:
+
+```
+make docker-resetdb
+```
+
+Run the Python backend and React front-end with auto-reload:
+
+On your host machine:
 
 ```
 ./run-dev.sh
+```
+
+On Docker, the servers will already be running.
+
+Open http://localhost:3000/ to view the development site.
+
+For Docker users, running `docker-dev` is enough to update dependencies.
+However, you may need to occasionally rebuild your images in case of system changes, such as a Python version upgrade.
+
+```
+make docker-rebuild
 ```

@@ -1,0 +1,52 @@
+version: "3.7"
+
+# WARNING: this configuration (along with the images) is only suitable
+# for local development at this time, not production.
+
+services:
+  client:
+    volumes:
+      # This uses a cached volume which chills out Docker CPU on macOS.
+      - .:/code:cached
+    environment:
+      - NODE_ENV=development
+      # This might be necessary for Windows but I'm not sure.
+      # It strains Docker CPU on macOS.
+      # - CHOKIDAR_USEPOLLING=true
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+      args:
+        - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    # This tricks create-react-app into keeping the dev server running
+    # but unlike `tty: true`, it won't erase the logs.
+    stdin_open: true
+    command: yarn --cwd client start
+
+  server:
+    volumes:
+      - .:/code
+    environment:
+      - DATABASE_URL=postgres://mbm@db:5432/mbm
+      - FLASK_ENV=development
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    ports:
+      - "3001:3001"
+    command: pipenv run python app.py
+
+  db:
+    volumes:
+      - .:/code
+    environment:
+      # Tell `make` to use the right docker-compose host.
+      - DATABASE_HOST=db
+      # Run psql commands without a password.
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
+    restart: always
