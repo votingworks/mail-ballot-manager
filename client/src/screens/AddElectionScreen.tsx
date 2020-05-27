@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { createElection, getElection } from '../api'
+import { createMailElection, getMailElection } from '../api'
 import AppContext from '../contexts/AppContext'
 import { InputEventFunction, FormEventFunction } from '../config/types'
 
@@ -14,7 +14,7 @@ import Text from '../components/Text'
 
 const AddElectionScreen = () => {
   const history = useHistory()
-  const { elections, addElection } = useContext(AppContext)
+  const { mailElections, addElection } = useContext(AppContext)
   const [electionName, setElectionName] = useState('')
   const [nameExists, setNameExists] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
@@ -22,7 +22,7 @@ const AddElectionScreen = () => {
   const handleElectionName: InputEventFunction = (event) => {
     setNameExists(false)
     const electionName = event.target.value
-    const matchingElection = elections.find((e) => e.name === electionName)
+    const matchingElection = mailElections!.find((e) => e.name === electionName)
     if (matchingElection) {
       setNameExists(true)
     } else {
@@ -33,8 +33,8 @@ const AddElectionScreen = () => {
   const handleCreateElection: FormEventFunction = async (event) => {
     event.preventDefault()
     setIsUploading(true)
-    const { electionId } = await createElection({ name: electionName })
-    const election = await getElection(electionId)
+    const { id: electionId } = await createMailElection({ name: electionName })
+    const election = await getMailElection(electionId)
     addElection(election)
     history.push(routerPaths.election({ electionId }))
   }
@@ -57,8 +57,8 @@ const AddElectionScreen = () => {
                   Election Name “{electionName}” already exists.
                 </Text>
               ) : (
-                <React.Fragment>Election Name</React.Fragment>
-              )}
+                  <React.Fragment>Election Name</React.Fragment>
+                )}
               <br />
               <input
                 ref={(input) => input && input.focus()}

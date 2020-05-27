@@ -9,7 +9,7 @@ import { shortDate } from '../utils/datetime'
 import truncateString from '../utils/truncateString'
 
 const ElectionsScreen = () => {
-  const { elections } = useContext(AppContext)
+  const { mailElections } = useContext(AppContext)
   return (
     <Prose maxWidth={false}>
       <h1>Elections</h1>
@@ -30,10 +30,10 @@ const ElectionsScreen = () => {
           </tr>
         </thead>
         <tbody>
-          {elections.map((election) => {
-            const { name, createdAt, electionTitle, electionDate } = election
+          {mailElections?.map((mailElection) => {
+            const { name, createdAt, electionTitle, electionDate } = mailElection
             return (
-              <tr key={election.id}>
+              <tr key={mailElection.id}>
                 <td>{truncateString(name, 20)}</td>
                 <td>{shortDate(createdAt)}</td>
                 <td>{electionTitle || '-'}</td>
@@ -42,7 +42,7 @@ const ElectionsScreen = () => {
                 <td>
                   <LinkButton
                     small
-                    to={routerPaths.election({ electionId: election.id })}
+                    to={routerPaths.election({ electionId: mailElection.id })}
                   >
                     View Election
                   </LinkButton>

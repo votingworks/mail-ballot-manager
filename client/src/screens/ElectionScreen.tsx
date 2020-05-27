@@ -10,13 +10,13 @@ import { shortDate } from '../utils/datetime'
 
 const ElectionScreen = () => {
   const { electionId } = useParams<ElectionScreenProps>()
-  const { elections, voters } = useContext(AppContext)
+  const { mailElections, voters } = useContext(AppContext)
   const { name, createdAt, electionTitle, electionDate } = getElection({
-    elections: elections!,
+    mailElections: mailElections!,
     electionId,
   })
   const hasElectionBallotPackage = !!electionTitle && !!electionDate
-  const hasVoters = !!voters.length
+  const hasVoters = !!voters?.length
   const readyToPrint = hasElectionBallotPackage && hasVoters
 
   return (
@@ -31,14 +31,14 @@ const ElectionScreen = () => {
           {electionTitle}, {shortDate(electionDate!)}
         </p>
       ) : (
-        <p>
-          <LinkButton
-            to={routerPaths.electionUploadBallotPackage({ electionId })}
-          >
-            Add Election Ballot Package
+          <p>
+            <LinkButton
+              to={routerPaths.electionUploadBallotPackage({ electionId })}
+            >
+              Add Election Ballot Package
           </LinkButton>
-        </p>
-      )}
+          </p>
+        )}
       {hasVoters ? (
         <p>
           <LinkButton to={routerPaths.elections} disabled={!readyToPrint}>
@@ -46,8 +46,8 @@ const ElectionScreen = () => {
           </LinkButton>
         </p>
       ) : (
-        <p>-- place Upload voter mailing list input here --</p>
-      )}
+          <p>-- place Upload voter mailing list input here --</p>
+        )}
     </Prose>
   )
 }

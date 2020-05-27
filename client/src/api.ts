@@ -6,10 +6,11 @@ import {
   User,
   BallotTemplate,
   Voter,
+  MailElections,
 } from './config/types'
 import { Election } from '@votingworks/ballot-encoder'
 
-const useFakeAPI = true
+const useFakeAPI = false
 
 // TODO: remove
 function sleep(ms: number = 2000) {
@@ -30,22 +31,14 @@ const mailElection: MailElection = {
 }
 
 export const authenticateUser = async (): Promise<User> => {
-  if (useFakeAPI) {
-    await sleep()
-    return { id: 'foo', email: 'beau@voting.works' }
-  }
-  return await fetchJSON(`/api/auth/me`)
+  await sleep()
+  return { id: 'foo', email: 'beau@voting.works' }
+  // return await fetchJSON(`/api/auth/me`)
 }
 
-export const createElection = async (data: {
+export const createMailElection = async (data: {
   name: string
-}): Promise<{ electionId: string }> => {
-  if (useFakeAPI) {
-    await sleep()
-    return {
-      electionId: `uuid-${Date.now()}`, // This will be a UUID
-    }
-  }
+}): Promise<{ id: string }> => {
   return await fetchJSON(`/api/mailelection/`, {
     method: 'post',
     headers: {
@@ -56,7 +49,7 @@ export const createElection = async (data: {
 }
 
 export const getElections = async (): Promise<{
-  mailElections: MailElection[]
+  mailElections: MailElections
 }> => {
   if (useFakeAPI) {
     await sleep()
@@ -65,7 +58,7 @@ export const getElections = async (): Promise<{
   return await fetchJSON(`/api/mailelection/`)
 }
 
-export const getElection = async (
+export const getMailElection = async (
   electionId: string
 ): Promise<MailElection> => {
   if (useFakeAPI) {

@@ -9,7 +9,7 @@ from .fixtures import client, election_id  # pylint: disable=unused-import
 
 def test_election_list(client, election_id):
     rv = client.get("/api/mailelection/")
-    elections = json.loads(rv.data)["elections"]
+    elections = json.loads(rv.data)["mailElections"]
     assert len(elections) == 1
     assert elections[0]["id"] == election_id
     assert (
@@ -25,7 +25,7 @@ def test_election_setup(client):
     election_id = election["id"]
 
     rv = client.get("/api/mailelection/")
-    elections = json.loads(rv.data)["elections"]
+    elections = json.loads(rv.data)["mailElections"]
     assert len(elections) == 1
     assert elections[0]["id"] == election["id"]
     assert elections[0]["name"] == TEST_ELECTION_NAME
