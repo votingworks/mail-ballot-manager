@@ -50,7 +50,7 @@ dev-environment: deps initdevdb install-development resetdb
 docker-dev: install-project
 	docker-compose run server make install-server-dev
 	docker-compose run client make install-client
-	docker-compose restart
+	docker-compose restart || docker-compose up -d
 	docker-compose logs -f
 
 docker-rebuild:
