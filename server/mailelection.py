@@ -50,7 +50,7 @@ def get_ballot_style(election_definition, ballot_style_id, precinct_id):
 @app.route(f"{API_URL_PREFIX}/mailelection/", methods=["GET"])
 def mailelection_list():
     return jsonify(
-        elections=[serialize_mailelection(me) for me in MailElection.query.all()]
+        mailElections=[serialize_mailelection(me) for me in MailElection.query.all()]
     )
 
 

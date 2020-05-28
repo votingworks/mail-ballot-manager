@@ -4,17 +4,11 @@ import { BrowserRouter } from 'react-router-dom'
 import 'normalize.css'
 import './App.css'
 
-import { LocalStorage } from './utils/Storage'
+import AppRoot from './AppRoot'
 
-import AppRoot, { Props as AppRootProps, AppStorage } from './AppRoot'
-
-export interface Props {
-  storage?: AppRootProps['storage']
-}
-
-const App = ({ storage = new LocalStorage<AppStorage>() }) => (
+const App = () => (
   <BrowserRouter>
-    <AppRoot storage={storage} />
+    <AppRoot />
   </BrowserRouter>
 )
 

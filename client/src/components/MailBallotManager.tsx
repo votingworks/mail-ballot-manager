@@ -49,14 +49,15 @@ export const routerPaths = {
   export: '/elections/:electionId/export',
 }
 
-const ElectionManager = () => {
+const MailBallotManager = () => {
   const location = useLocation()
-  const { user, signOut, elections } = useContext(AppContext)
-
-  const hasElections = !!elections.length
+  const { user, signOut, mailElections } = useContext(AppContext)
 
   const mainContent = () => {
-    if (hasElections) {
+    if (mailElections === undefined) {
+      return null
+    }
+    if (mailElections.length) {
       return (
         <Switch>
           <Route exact path={routerPaths.elections}>
@@ -116,10 +117,10 @@ const ElectionManager = () => {
 
   const ElectionNavigation = () => {
     const { electionId } = useParams()
-    if (electionId === 'add') {
+    if (!mailElections || electionId === 'add') {
       return null
     }
-    const { name } = getElection({ elections: elections!, electionId })
+    const { name } = getElection({ mailElections, electionId })
     return (
       <React.Fragment>
         <LinkButton
@@ -183,4 +184,4 @@ const ElectionManager = () => {
   }
 }
 
-export default ElectionManager
+export default MailBallotManager

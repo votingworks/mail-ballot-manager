@@ -29,7 +29,7 @@ export interface User {
   email: string
 }
 export type OptionalUser = User | undefined
-export type SaveUser = (value: OptionalUser) => void
+export type SetUser = React.Dispatch<React.SetStateAction<User | undefined>>
 
 // Voters
 
@@ -56,6 +56,7 @@ export interface Voter {
   ballotInboundDelivered?: Date
 }
 export type Voters = Voter[]
+export type OptionalVoters = Voters | undefined
 
 export interface VoterMailingListFile {
   id: string
@@ -88,6 +89,8 @@ export interface MailElection {
   mailingListFiles?: VoterMailingListFile[]
   ballotBatches?: MailBallotBatch[]
 }
+export type MailElections = MailElection[]
+export type OptionalMailElections = MailElections | undefined
 
 export interface InsertsData {
   affidavit: string

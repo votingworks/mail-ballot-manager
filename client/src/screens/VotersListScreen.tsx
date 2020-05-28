@@ -22,8 +22,8 @@ export default VotersListScreen
 
 // const VotersListScreen = () => {
 //   const { electionId } = useParams<ElectionScreenProps>()
-//   const { voters, elections } = useContext(AppContext)
-//   const election = getElection({ elections: elections!, electionId })
+//   const { voters, mailElections } = useContext(AppContext)
+//   const election = getElection({ mailElections, electionId })
 //   const { electionTitle, definition } = election
 //   return (
 //     <Prose maxWidth={false}>

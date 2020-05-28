@@ -1,21 +1,28 @@
 import { createContext, RefObject } from 'react'
-import { MailElection, OptionalUser, SaveUser, Voters } from '../config/types'
+import {
+  MailElection,
+  OptionalUser,
+  SetUser,
+  MailElections,
+  OptionalMailElections,
+  OptionalVoters
+} from '../config/types'
 
 interface AppContextInterface {
   addElection: (election: MailElection) => void
-  elections: MailElection[]
+  mailElections: OptionalMailElections
   printBallotRef?: RefObject<HTMLElement>
-  saveUser: SaveUser
+  setUser: SetUser
   signOut: () => void
   user: OptionalUser
-  voters: Voters
+  voters: OptionalVoters
 }
 
 const appContext: AppContextInterface = {
   addElection: () => undefined,
-  elections: [],
+  mailElections: [],
   printBallotRef: undefined,
-  saveUser: () => undefined,
+  setUser: () => undefined,
   signOut: () => undefined,
   user: undefined,
   voters: [],
@@ -24,11 +31,11 @@ const appContext: AppContextInterface = {
 const AppContext = createContext(appContext)
 
 export const getElection = ({
-  elections,
+  mailElections,
   electionId,
 }: {
-  elections: MailElection[]
+  mailElections: MailElections
   electionId: string
-}) => elections.find((e) => e.id === electionId)!
+}) => mailElections.find((e) => e.id === electionId)!
 
 export default AppContext

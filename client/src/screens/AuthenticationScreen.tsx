@@ -11,13 +11,13 @@ import Navigation from '../components/Navigation'
 import Loading from '../components/Loading'
 
 const AuthenicationScreen = () => {
-  const { saveUser } = useContext(AppContext)
+  const { setUser } = useContext(AppContext)
   const [loading, setLoading] = useState(false)
 
   const signIn = async () => {
     setLoading(true)
     const user = await authenticateUser()
-    saveUser(user)
+    setUser(user)
   }
 
   return (
@@ -25,12 +25,12 @@ const AuthenicationScreen = () => {
       {loading ? (
         <Loading isFullscreen>Signing in</Loading>
       ) : (
-        <Main padded>
-          <MainChild>
-            <Button onPress={signIn}>Sign In</Button>
-          </MainChild>
-        </Main>
-      )}
+          <Main padded>
+            <MainChild>
+              <Button onPress={signIn}>Sign In</Button>
+            </MainChild>
+          </Main>
+        )}
       <Navigation />
     </Screen>
   )

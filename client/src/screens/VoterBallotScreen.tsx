@@ -36,8 +36,8 @@ export default VoterBallotScreen
 
 // const BallotScreen = () => {
 //   const { voterId, electionId } = useParams<VoterScreenProps>()
-//   const { elections, voters } = useContext(AppContext)
-//   const election = elections.find((e) => e.id === electionId)?.definition!
+//   const { mailElections, voters } = useContext(AppContext)
+//   const election = mailElections.find((e) => e.id === electionId)?.definition!
 //   const {
 //     ballotCreated,
 //     ballotInboundDelivered,
