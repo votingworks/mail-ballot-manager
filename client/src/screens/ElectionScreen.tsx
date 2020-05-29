@@ -16,7 +16,7 @@ const ElectionScreen = () => {
     electionId,
   })
   const hasElectionBallotPackage = !!electionTitle && !!electionDate
-  const hasVoters = !!voters?.length
+  const hasVoters = !!voters[electionId]?.length
   const readyToPrint = hasElectionBallotPackage && hasVoters
 
   return (
@@ -36,18 +36,23 @@ const ElectionScreen = () => {
               to={routerPaths.electionUploadBallotPackage({ electionId })}
             >
               Add Election Ballot Package
-          </LinkButton>
+            </LinkButton>
           </p>
         )}
-      {hasVoters ? (
+      {!hasVoters && (
         <p>
-          <LinkButton to={routerPaths.elections} disabled={!readyToPrint}>
-            Send Batch
+          <LinkButton
+            to={routerPaths.electionVoters({ electionId })}
+          >
+            Add Voters
           </LinkButton>
         </p>
-      ) : (
-          <p>-- place Upload voter mailing list input here --</p>
-        )}
+      )}
+      <p>
+        <LinkButton to={routerPaths.elections} disabled={!readyToPrint}>
+          Send Batch
+        </LinkButton>
+      </p>
     </Prose>
   )
 }

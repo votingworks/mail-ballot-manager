@@ -42,21 +42,15 @@ export const createMailElection = async (data: {
   return await fetchJSON(`/api/mailelection/`, {
     method: 'post',
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
 }
 
-export const getElections = async (): Promise<{
+export const getMailElections = async (): Promise<{
   mailElections: MailElections
-}> => {
-  if (useFakeAPI) {
-    await sleep()
-    return { mailElections: [mailElection] }
-  }
-  return await fetchJSON(`/api/mailelection/`)
-}
+}> => await fetchJSON(`/api/mailelection/`)
 
 export const getMailElection = async (
   electionId: string
@@ -71,7 +65,7 @@ export const approveElection = async (data: { electionId: string }) =>
   await fetchJSON(`/api/mailelection/${data.electionId}/approve`, {
     method: 'post',
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
@@ -86,7 +80,7 @@ export const putElectionDefinition = async ({
   await fetchJSON(`/api/mailelection/${electionId}/definition`, {
     method: 'put',
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(election),
   })
@@ -130,17 +124,19 @@ export const getBallotTemplate = async ({
     `/api/mailelection/${electionId}/ballot-style/${ballotStyleId}/precinct/${precinctId}/template`
   )
 
-export const putMailingList = async ({
+export const putVoterMailingList = async ({
   electionId,
   voterMailingListFile,
 }: {
   electionId: string
   voterMailingListFile: string
-}) =>
-  await fetchJSON(`/api/mailelection/${electionId}/mailinglist`, {
-    method: 'put',
-    body: voterMailingListFile,
-  })
+}) => await fetchJSON<{ status: string }>(`/api/mailelection/${electionId}/voters/file`, {
+  method: 'put',
+  body: voterMailingListFile,
+  headers: {
+    'Content-Type': 'application/csv'
+  }
+})
 
 export const getVoters = async ({
   electionId,
@@ -166,7 +162,7 @@ export const putInserts = async ({
   await fetchJSON(`/api/mailelection/${electionId}/inserts`, {
     method: 'put',
     headers: {
-      'content-type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(insertsData),
   })
