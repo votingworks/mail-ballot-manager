@@ -1,4 +1,4 @@
-FROM postgres:12.3
+FROM postgres:9.6.2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
