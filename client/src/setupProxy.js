@@ -7,7 +7,8 @@
 /* istanbul ignore file */
 
 const { createProxyMiddleware } = require('http-proxy-middleware')
+const apiHost = process.env.API_HOST || 'localhost:3001'
 
 module.exports = function (app) {
-  app.use(createProxyMiddleware('/api', { target: 'http://localhost:3001/' }))
+  app.use(createProxyMiddleware('/api', { target: `http://${apiHost}/` }))
 }

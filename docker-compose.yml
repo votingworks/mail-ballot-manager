@@ -10,9 +10,13 @@ services:
       - .:/code:cached
     environment:
       - NODE_ENV=development
+
       # This might be necessary for Windows but I'm not sure.
       # It strains Docker CPU on macOS.
       # - CHOKIDAR_USEPOLLING=true
+
+      # Link the server container to the client's API proxy.
+      - API_HOST=server:3001
     build:
       context: .
       dockerfile: ./client/Dockerfile
