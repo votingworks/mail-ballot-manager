@@ -12,6 +12,12 @@
     "MBM_SESSION_SECRET": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "FLASK_ENV": {
+      "value": "staging"
     }
   },
   "formation": {
