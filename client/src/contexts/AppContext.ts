@@ -5,27 +5,30 @@ import {
   SetUser,
   MailElections,
   OptionalMailElections,
-  OptionalVoters
+  SetVoters,
+  VotersDictionary
 } from '../config/types'
 
 interface AppContextInterface {
   addElection: (election: MailElection) => void
+  setVoters: SetVoters
   mailElections: OptionalMailElections
   printBallotRef?: RefObject<HTMLElement>
   setUser: SetUser
   signOut: () => void
   user: OptionalUser
-  voters: OptionalVoters
+  voters: VotersDictionary
 }
 
 const appContext: AppContextInterface = {
   addElection: () => undefined,
+  setVoters: () => undefined,
   mailElections: [],
   printBallotRef: undefined,
   setUser: () => undefined,
   signOut: () => undefined,
   user: undefined,
-  voters: [],
+  voters: {},
 }
 
 const AppContext = createContext(appContext)

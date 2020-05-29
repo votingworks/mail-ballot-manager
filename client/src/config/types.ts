@@ -29,7 +29,7 @@ export interface User {
   email: string
 }
 export type OptionalUser = User | undefined
-export type SetUser = React.Dispatch<React.SetStateAction<User | undefined>>
+export type SetUser = React.Dispatch<React.SetStateAction<OptionalUser>>
 
 // Voters
 
@@ -43,7 +43,7 @@ export interface Voter {
   street2: string
   city: string
   state: string
-  zipcode: string
+  zipCode: string
   ballotStyleId: string
   precinctId: string
   ballotFilepath?: string
@@ -56,7 +56,8 @@ export interface Voter {
   ballotInboundDelivered?: Date
 }
 export type Voters = Voter[]
-export type OptionalVoters = Voters | undefined
+export type VotersDictionary = Record<string, Voters>
+export type SetVoters = React.Dispatch<React.SetStateAction<VotersDictionary>>
 
 export interface VoterMailingListFile {
   id: string

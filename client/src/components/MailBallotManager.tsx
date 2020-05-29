@@ -31,8 +31,6 @@ import ElectionsScreen from '../screens/ElectionsScreen'
 import ElectionScreen from '../screens/ElectionScreen'
 import EditElectionBallotPackageScreen from '../screens/EditElectionBallotPackageScreen'
 
-type Foo = ({ electionId }: { electionId: string }) => string
-
 export const routerPaths = {
   root: '/',
   elections: '/elections',

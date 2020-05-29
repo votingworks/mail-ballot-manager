@@ -7,8 +7,8 @@ from .util.csv_parse import parse_csv, CSVValueType, CSVColumnType
 from .security import with_mailelection_admin
 
 VOTER_ID = "Voter ID"
-BALLOT_STYLE_ID = "Ballot Style"
-PRECINCT_ID = "Precinct"
+BALLOT_STYLE_ID = "Ballot Style ID"
+PRECINCT_ID = "Precinct ID"
 FIRST_NAME = "First Name"
 MIDDLE_NAME = "Middle Name"
 LAST_NAME = "Last Name"
@@ -63,8 +63,8 @@ def serialize_voter(voter):
     return {
         "id": voter.id,
         "voterId": voter.voter_id,
-        "ballotStyle": voter.ballot_style_id,
-        "precinct": voter.precinct_id,
+        "ballotStyleId": voter.ballot_style_id,
+        "precinctId": voter.precinct_id,
         "firstName": voter.first_name,
         "middleName": voter.middle_name,
         "lastName": voter.last_name,

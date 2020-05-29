@@ -4,8 +4,16 @@ import { useHistory } from 'react-router-dom'
 import AppContext from './contexts/AppContext'
 
 import MailBallotManager, { routerPaths } from './components/MailBallotManager'
-import { User, OptionalUser, MailElection, Voters, MailElections, OptionalMailElections, OptionalVoters } from './config/types'
-import { getElections } from './api'
+import {
+  User,
+  OptionalUser,
+  MailElection,
+  Voters,
+  MailElections,
+  OptionalMailElections,
+  VotersDictionary
+} from './config/types'
+import { getMailElections, getVoters } from './api'
 
 export interface AppStorage {
   user?: User
@@ -19,12 +27,12 @@ const AppRoot = () => {
 
   const [user, setUser] = useState<OptionalUser>()
   const [mailElections, setMailElections] = useState<OptionalMailElections>()
-  const [voters, setVoters] = useState<OptionalVoters>()
+  const [voters, setVoters] = useState<VotersDictionary>({})
 
   const signOut = () => {
     setUser(undefined)
     setMailElections(undefined)
-    setVoters(undefined)
+    setVoters({})
     history.push(routerPaths.root)
   }
 
@@ -35,11 +43,31 @@ const AppRoot = () => {
 
   useEffect(() => {
     const getAndSetMailElections = async () => {
-      const { mailElections } = await getElections()
-      setMailElections(mailElections)
+      try {
+        const { mailElections } = await getMailElections()
+        setMailElections(mailElections)
+      } catch (error) {
+        history.push(routerPaths.root)
+        window.location.reload(false)
+        console.error('getAndSetMailElections failed', error) // eslint-disable-line no-console
+      }
     }
     getAndSetMailElections()
-  }, [setMailElections, user])
+  }, [setMailElections, history, user])
+
+  useEffect(() => {
+    const getAndSetVoters = async () => {
+      const updateVoters = async (electionId: string) => {
+        const { voters: newVoters } = await getVoters({ electionId })
+        setVoters(v => ({
+          ...v,
+          [electionId]: newVoters,
+        }))
+      }
+      mailElections?.map(election => updateVoters(election.id))
+    }
+    getAndSetVoters()
+  }, [setVoters, mailElections])
 
   return (
     <AppContext.Provider
@@ -47,6 +75,7 @@ const AppRoot = () => {
         addElection,
         mailElections,
         printBallotRef,
+        setVoters,
         user,
         setUser,
         signOut,

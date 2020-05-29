@@ -1,4 +1,4 @@
-Voter ID,Ballot Style,Precinct,First Name,Middle Name,Last Name,Name Suffix,Street 1,Street 2,City,State,Zip Code
+Voter ID,Ballot Style ID,Precinct ID,First Name,Middle Name,Last Name,Name Suffix,Street 1,Street 2,City,State,Zip Code
 7025533,5,20,Mellisent,Derby,Drydale,,2551 Main Street,"",San Jose,California,95128
 4527536,12,20,Gay,Agna,Abisetti,,258 Sugar Point,"",Oklahoma City,Oklahoma,73190
 1014002,5,20,Aprilette,Verge,Audiss,,904 Carioca Plaza,"",Albany,New York,12232
