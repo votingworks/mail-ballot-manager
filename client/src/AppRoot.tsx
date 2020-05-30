@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import AppContext from './contexts/AppContext'
@@ -7,13 +7,13 @@ import MailBallotManager, { routerPaths } from './components/MailBallotManager'
 import {
   User,
   OptionalUser,
-  MailElection,
   Voters,
   MailElections,
   OptionalMailElections,
-  VotersDictionary
+  VotersDictionary,
+  ElectionDefinitionsDictionary,
 } from './config/types'
-import { getMailElections, getVoters } from './api'
+import { getMailElections, getVoters, getElectionDefinition } from './api'
 
 export interface AppStorage {
   user?: User
@@ -28,6 +28,7 @@ const AppRoot = () => {
   const [user, setUser] = useState<OptionalUser>()
   const [mailElections, setMailElections] = useState<OptionalMailElections>()
   const [voters, setVoters] = useState<VotersDictionary>({})
+  const [electionDefinitions, setElectionDefinitions] = useState<ElectionDefinitionsDictionary>({})
 
   const signOut = () => {
     setUser(undefined)
@@ -36,49 +37,65 @@ const AppRoot = () => {
     history.push(routerPaths.root)
   }
 
-  const addElection = (newElection: MailElection) => {
-    const newElections = (mailElections || []).concat([newElection])
-    setMailElections(newElections)
-  }
+  const loadMailElections = useCallback(async () => {
+    try {
+      const { mailElections } = await getMailElections()
+      setMailElections(mailElections)
+    } catch (error) {
+      history.push(routerPaths.root)
+      window.location.reload(false)
+      console.error('getAndSetMailElections failed', error) // eslint-disable-line no-console
+    }
+  }, [history])
 
   useEffect(() => {
-    const getAndSetMailElections = async () => {
+    loadMailElections()
+  }, [loadMailElections])
+
+  const loadVoters = useCallback(async () => {
+    mailElections?.forEach(async me => {
+      const { voters: newVoters } = await getVoters({ electionId: me.id })
+      setVoters(v => ({
+        ...v,
+        [me.id]: newVoters,
+      }))
+    })
+  }, [mailElections])
+
+  useEffect(() => {
+    loadVoters()
+  }, [loadVoters])
+
+  const loadElectionDefinitions = useCallback(async () => {
+    mailElections?.map(async me => {
       try {
-        const { mailElections } = await getMailElections()
-        setMailElections(mailElections)
+        const newDefinition = await getElectionDefinition({ electionId: me.id })
+        setElectionDefinitions(d => ({
+          ...d,
+          [me.id]: newDefinition,
+        }))
       } catch (error) {
-        history.push(routerPaths.root)
-        window.location.reload(false)
-        console.error('getAndSetMailElections failed', error) // eslint-disable-line no-console
+        console.error(error)
       }
-    }
-    getAndSetMailElections()
-  }, [setMailElections, history, user])
+    })
+  }, [mailElections])
 
   useEffect(() => {
-    const getAndSetVoters = async () => {
-      const updateVoters = async (electionId: string) => {
-        const { voters: newVoters } = await getVoters({ electionId })
-        setVoters(v => ({
-          ...v,
-          [electionId]: newVoters,
-        }))
-      }
-      mailElections?.map(election => updateVoters(election.id))
-    }
-    getAndSetVoters()
-  }, [setVoters, mailElections])
+    loadElectionDefinitions()
+  }, [loadElectionDefinitions])
 
   return (
     <AppContext.Provider
       value={{
-        addElection,
+        electionDefinitions,
         mailElections,
         printBallotRef,
-        setVoters,
-        user,
         setUser,
+        setVoters,
         signOut,
+        loadMailElections,
+        loadVoters,
+        user,
         voters,
       }}
     >

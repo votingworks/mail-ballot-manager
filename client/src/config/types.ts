@@ -31,6 +31,9 @@ export interface User {
 export type OptionalUser = User | undefined
 export type SetUser = React.Dispatch<React.SetStateAction<OptionalUser>>
 
+// Election Definitions
+export type ElectionDefinitionsDictionary = Record<string, ElectionDefinition>
+
 // Voters
 
 export interface Voter {

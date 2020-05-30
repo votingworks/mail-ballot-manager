@@ -11,12 +11,13 @@ import Navigation from '../components/Navigation'
 import Loading from '../components/Loading'
 
 const AuthenicationScreen = () => {
-  const { setUser } = useContext(AppContext)
+  const { setUser, loadMailElections } = useContext(AppContext)
   const [loading, setLoading] = useState(false)
 
   const signIn = async () => {
     setLoading(true)
     const user = await authenticateUser()
+    await loadMailElections()
     setUser(user)
   }
 

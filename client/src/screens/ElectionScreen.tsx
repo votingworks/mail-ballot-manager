@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 
 import AppContext, { getElection } from '../contexts/AppContext'
+
 import LinkButton from '../components/LinkButton'
 import { routerPaths } from '../components/MailBallotManager'
 import Prose from '../components/Prose'

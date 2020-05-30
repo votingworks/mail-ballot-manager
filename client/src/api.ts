@@ -8,7 +8,7 @@ import {
   Voter,
   MailElections,
 } from './config/types'
-import { Election } from '@votingworks/ballot-encoder'
+import { Election as ElectionDefinition } from '@votingworks/ballot-encoder'
 
 const useFakeAPI = false
 
@@ -75,7 +75,7 @@ export const putElectionDefinition = async ({
   election,
 }: {
   electionId: string
-  election: Election
+  election: ElectionDefinition
 }) =>
   await fetchJSON(`/api/mailelection/${electionId}/definition`, {
     method: 'put',
@@ -89,7 +89,7 @@ export const getElectionDefinition = async ({
   electionId,
 }: {
   electionId: string
-}): Promise<Election> =>
+}): Promise<ElectionDefinition> =>
   await fetchJSON(`/api/mailelection/${electionId}/definition`)
 
 export const putBallotTemplate = async ({
@@ -108,6 +108,9 @@ export const putBallotTemplate = async ({
     {
       method: 'put',
       body: file,
+      headers: {
+        'Content-Type': 'application/pdf',
+      },
     }
   )
 
