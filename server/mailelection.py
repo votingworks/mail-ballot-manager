@@ -76,6 +76,9 @@ def mailelection_one(mailelection):
 )
 @with_mailelection_admin
 def mailelection_definition_get(mailelection):
+    if not mailelection.definition:
+        return jsonify(error="No definition uploaded yet"), 404
+
     return mailelection.definition, 200, {"Content-Type": "application/json"}
 
 
