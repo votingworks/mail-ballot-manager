@@ -37,6 +37,9 @@ def test_election_setup(client):
     assert election["name"] == TEST_ELECTION_NAME
     assert election["voterCount"] == 0
 
+    rv = client.get(f"/api/mailelection/{election_id}/definition")
+    assert rv.status_code == 404
+
     rv = client.put(
         f"/api/mailelection/{election_id}/definition",
         headers={"Content-Type": "application/json"},
