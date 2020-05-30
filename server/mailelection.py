@@ -23,7 +23,7 @@ def serialize_mailelection(mailelection, expand=False):
     if mailelection.definition:
         definition = json.loads(mailelection.definition)
         mailelection_obj["electionHash"] = hashlib.sha256(
-            mailelection.definition
+            mailelection.definition.encode("utf-8")
         ).hexdigest()
         mailelection_obj["electionTitle"] = definition["title"]
         mailelection_obj["electionDate"] = definition["date"]
