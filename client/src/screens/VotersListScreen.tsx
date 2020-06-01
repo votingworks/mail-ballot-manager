@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getPrecinctById } from '@votingworks/ballot-encoder'
 
@@ -8,7 +8,7 @@ import { InputEventFunction, ElectionScreenProps } from '../config/types'
 
 import AppContext from '../contexts/AppContext'
 
-import { putVoterMailingList, getVoters } from '../api'
+import { putVoterMailingList } from '../api'
 
 import { MainChild } from '../components/Main'
 import { routerPaths } from '../components/MailBallotManager'
@@ -20,23 +20,18 @@ import Table from '../components/Table'
 
 const VotersListScreen = () => {
   const { electionId } = useParams<ElectionScreenProps>()
-  const { setVoters, voters } = useContext(AppContext)
+  const { loadVoters, voters, electionDefinitions } = useContext(AppContext)
+  const electionDefinition = electionDefinitions[electionId]
+  const hasElectionDefinition = !!electionDefinition
+  const hasVoters = !!voters[electionId].length
 
-  const [isLoading, setIsLoading] = useState(!voters)
-  const [isVoterMailingListError, setIsVoterMailingListError] = useState(false)
-
-  const getVotersForElection = useCallback(async () => {
-    const { voters: newVoters } = await getVoters({ electionId })
-    setVoters(v => ({
-      ...v,
-      [electionId]: newVoters
-    }))
-    setIsLoading(false)
-  }, [setVoters, electionId])
-
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
-    !voters && getVotersForElection()
-  }, [getVotersForElection, voters])
+    if (hasVoters) {
+      setIsLoading(false)
+    }
+  }, [hasVoters])
+  const [isVoterMailingListError, setIsVoterMailingListError] = useState(false)
 
   const handleVoterMailingListCSV: InputEventFunction = async (event) => {
     setIsLoading(true)
@@ -48,7 +43,7 @@ const VotersListScreen = () => {
       try {
         const fileContent = await readFileAsync(file)
         await putVoterMailingList({ electionId, voterMailingListFile: fileContent })
-        getVotersForElection()
+        await loadVoters()
       } catch (error) {
         setIsVoterMailingListError(true)
         setIsLoading(false)
@@ -57,8 +52,7 @@ const VotersListScreen = () => {
     }
   }
 
-  const definition = false
-
+  // TODO: remove hardcoded slice…
   const paginatedVoters = voters[electionId]?.slice(0, 100)
 
   if (isLoading) {
@@ -88,7 +82,7 @@ const VotersListScreen = () => {
                   <th>Middle</th>
                   <th>Last</th>
                   <th>Suffix</th>
-                  <th>{definition ? 'Precinct' : 'Precinct ID'}</th>
+                  <th>{hasElectionDefinition ? 'Precinct' : 'Precinct ID'}</th>
                   <th>Ballot Style</th>
                   <th>street1</th>
                   <th>street2</th>
@@ -121,8 +115,8 @@ const VotersListScreen = () => {
                         <td>{lastName}</td>
                         <td>{nameSuffix}</td>
                         <td>
-                          {definition ?
-                            getPrecinctById({ election: definition, precinctId })?.name : precinctId}
+                          {hasElectionDefinition ?
+                            getPrecinctById({ election: electionDefinition, precinctId })?.name : precinctId}
                         </td>
                         <td>{ballotStyleId}</td>
                         <td>{street1}</td>
