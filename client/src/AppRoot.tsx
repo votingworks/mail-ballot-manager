@@ -23,7 +23,7 @@ export interface AppStorage {
 
 const AppRoot = () => {
   const history = useHistory()
-  const printBallotRef = useRef<HTMLDivElement>(null)
+  const printAreaRef = useRef<HTMLDivElement>(null)
 
   const [user, setUser] = useState<OptionalUser>()
   const [mailElections, setMailElections] = useState<OptionalMailElections>()
@@ -89,7 +89,7 @@ const AppRoot = () => {
       value={{
         electionDefinitions,
         mailElections,
-        printBallotRef,
+        printAreaRef,
         setUser,
         setVoters,
         signOut,
@@ -100,7 +100,7 @@ const AppRoot = () => {
       }}
     >
       <MailBallotManager />
-      <div ref={printBallotRef} />
+      <div ref={printAreaRef} />
     </AppContext.Provider>
   )
 }
