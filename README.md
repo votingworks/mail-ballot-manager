@@ -115,7 +115,7 @@ This tool **does not** provide any features handled by other offline apps such a
 
 ## Running in Development
 
-On Linux for now.
+Requires Linux or Docker.
 
 1. Get your dev environment ready:
 
@@ -160,7 +160,7 @@ On the VM:
 ### Optional Steps
 
 1. Install gpg to sign commits.
-2. Setup VS Code to use ["Remote - SSH"](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension to be able to edit files and access the terminal from within VS Code… and forward ports such that you can use a native browser as well.
+2. 2. Setup VS Code to use ["Remote - SSH"](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) extension to be able to edit files and access the terminal from within VS Code… and forward ports such that you can use a browser on the host as well.
 3. Setup dotfiles to your preference.
 
 ### Setup SSH Host Shortcut
@@ -176,10 +176,10 @@ Set up ssh host shortcut such that you can type `ssh vx` to connect to VM:
     Host vx
       HostName 10.211.55.3
     ```
-6.  Confirm this works by typing `ssh vx` to ssh into the VM. If your username is different on the VM than the host, you'll need to use `ssh USER@vx`.
+6.  Confirm this works by typing `ssh vx` to ssh into the VM. If your username is different on the VM than the host, add `User USER` to the ssh config for `vx` in `~/.ssh/config`.
 7.  Copy ssh public key fron the host machine `~/.ssh/id_rsa.pub` to the VM `~/.ssh/authorized_keys` for connecting without entering a password.
     ```
-    `scp ~/.ssh/id_rsa.pub vx:~/.ssh/authorized_keys`
+    cat ~/.ssh/id_rsa.pub | ssh vx 'cat >> ~/.ssh/authorized_keys'
     ```
 
 ### Troubleshooting
