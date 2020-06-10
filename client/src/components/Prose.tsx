@@ -6,7 +6,7 @@ interface Props {
   textCenter?: boolean
 }
 
-const Prose = styled('div')<Props>`
+const Prose = styled('div') <Props>`
   margin: ${({ textCenter }) => (textCenter ? 'auto' : undefined)};
 
   /* width: 100%; */
@@ -38,6 +38,9 @@ const Prose = styled('div')<Props>`
   & h4,
   & h5,
   & p,
+  & dl,
+  & ol,
+  & ul,
   & hr {
     margin-top: ${({ compact }) => (compact ? '0' : '1em')};
     margin-bottom: ${({ compact }) => (compact ? '0' : '1em')};
@@ -45,14 +48,24 @@ const Prose = styled('div')<Props>`
   & h1 + h2 {
     margin-top: -0.75em;
   }
-  & h1 + p,
-  & h2 + p {
-    margin-top: -0.75em;
+  & h1,
+  & h2 {
+    + p,
+    + ul,
+    + ol,
+    + dl {
+      margin-top: -0.75em;
+    }
   }
-  & h3 + p,
-  & h4 + p,
-  & h5 + p {
-    margin-top: ${({ compact }) => (compact ? 0 : '-1em')};
+  & h3,
+  & h4,
+  & h5 {
+    + p,
+    + ul,
+    + ol,
+    + dl {
+      margin-top: ${({ compact }) => (compact ? 0 : '-1em')};
+    }
   }
   & > :first-child {
     margin-top: 0;
@@ -60,8 +73,8 @@ const Prose = styled('div')<Props>`
   & > :last-child {
     margin-bottom: 0;
   }
-  & dl {
-    margin: 1em 0;
+  & ul {
+    padding-left: 1.2em;
   }
   & hr {
     border: 0;

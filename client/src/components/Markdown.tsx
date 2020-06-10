@@ -1,0 +1,71 @@
+import React from 'react'
+import marked from 'marked'
+import DOMPurify from 'dompurify'
+import styled from 'styled-components'
+
+import Prose from './Prose'
+
+const ErrorList = styled.dl`
+  margin-bottom: 2em;
+  color: red;
+  dt {
+    font-weight: bold;
+  }
+  dd {
+    margin: 0 0 1em 1rem;
+  }
+`
+
+interface Props {
+  ALLOWED_TAGS?: string[]
+  children: string
+  maxWidth?: boolean
+}
+
+const Markdown = ({
+  ALLOWED_TAGS = [
+    'b',
+    'em',
+    'h1',
+    'h2',
+    'h3',
+    'li',
+    'ol',
+    'p',
+    'small',
+    'strong',
+    'ul',
+  ],
+  children,
+  maxWidth,
+}: Props) => {
+  const htmlContent = marked(children)
+  const cleanHHtmContent = DOMPurify.sanitize(htmlContent, { ALLOWED_TAGS })
+  const removed = DOMPurify.removed.map((item, index) => ({
+    index,
+    tagName: item.element.tagName.toLowerCase(),
+    outerHTML: item.element.outerHTML,
+  })).filter(item => item.tagName !== 'body')
+  return (
+    <React.Fragment>
+      {removed.length !== 0 && (
+        <ErrorList>
+          {removed.map(({ index, tagName, outerHTML }) =>
+            <React.Fragment key={index}>
+              <dt>
+                Disallowed tag <code>{tagName}</code> removed. Tag found in:
+              </dt>
+              <dd>
+                <code>{outerHTML}</code>
+              </dd>
+            </React.Fragment>
+          )}
+        </ErrorList>
+      )}
+      <Prose maxWidth={maxWidth} dangerouslySetInnerHTML={{ __html: cleanHHtmContent }} />
+    </React.Fragment>
+  )
+}
+
+
+export default Markdown

@@ -13,7 +13,7 @@ interface AppContextInterface {
   electionDefinitions: ElectionDefinitionsDictionary
   setVoters: SetVoters
   mailElections: OptionalMailElections
-  printBallotRef?: RefObject<HTMLElement>
+  printAreaRef?: RefObject<HTMLElement>
   setUser: SetUser
   signOut: () => void
   loadMailElections: () => Promise<void>
@@ -26,7 +26,7 @@ const appContext: AppContextInterface = {
   electionDefinitions: {},
   setVoters: () => undefined,
   mailElections: [],
-  printBallotRef: undefined,
+  printAreaRef: undefined,
   setUser: () => undefined,
   signOut: () => undefined,
   loadMailElections: async () => undefined,
