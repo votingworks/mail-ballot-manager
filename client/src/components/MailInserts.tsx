@@ -35,68 +35,41 @@ const IMb = styled.div`
 
 const OutboundWindow = styled.div`
   position: absolute;
-  top: 1.425in;
-  left: 1.375in;
+  top: 1.125in;
+  left: 0.875in;
   height: 2.5in;
-  width: 4in;
+  width: 3.95in;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.03in 0.05in;
+  padding: 0.05in 0.075in;
   @media screen {
     &:hover {
       outline: 1px solid red;
     }
   }
 `
-// const OutboundSenderWindow = styled.div`
-//   position: absolute;
-//   top: 1.125in;
-//   left: 1.375in;
-//   height: 0.625in;
-//   width: 2.4in;
-//   // outline: 1pt solid tan;
-//   display: flex;
-//   align-items: center;
-//   padding: 0.03in 0.05in;
-// `
-// const OutboundSenderAddress = styled.div`
-//   font-size: 8pt;
-//   line-height: 1.2;
-// `
-
-// const OutboundVoterWindow = styled.div`
-//   position: absolute;
-//   top: 2.75in;
-//   left: 1.375in;
-//   height: 0.75in;
-//   width: 3in;
-//   // outline: 1pt solid tan;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   padding: 0.03in 0.05in;
-// `
-// const OutboundVoterAddress = styled.div`
-//   font-size: 8pt;
-//   line-height: 1.2;
-// `
 
 const Instructions = styled.div`
   position: absolute;
-  top: 4.5in;
-  right: 0.5in;
-  left: 1.375in;
-  height: 6in;
-  padding: 0 0.05in;
+  top: 4.25in;
+  right: 0.875in;
+  left: 0.875in;
+  height: 6.5in;
+  padding: 0 0.075in;
+  @media screen {
+    &:hover {
+      outline: 1px solid red;
+    }
+  }
 `
 
 const InboundWindow = styled.div`
   position: absolute;
   top: 1.875in;
-  left: 1.0625in;
+  left: 0.875in;
   height: 2.75in;
-  width: 4.125in;
+  width: 3.9375in;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -119,23 +92,23 @@ const VoterSignature = styled.div`
 const SignatureArrow = styled.div`
   position: absolute;
   top: 0;
-  left: -0.875in;
+  left: -0.7in;
   height: 0.875in;
-  width: 0.875in;
+  width: 0.7in;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16pt;
+  font-size: 14pt;
   text-align: left;
   font-weight: bold;
   &::after {
     content: '';
     width: 0;
     height: 0;
-    border: 0.2in solid transparent;
+    border: 0.15in solid transparent;
     border-left-color: black;
     display: block;
-    border-right-width: 0.1in;
+    border-right-width: 0.075in;
   }
 `
 const SignatureLine = styled.div`
@@ -181,9 +154,16 @@ const InboundJurisdiction = styled.div`
 const Declaration = styled.div`
   position: absolute;
   top: 0.25in;
-  left: 1.0625in;
+  left: 0.25in;
   right: 0.25in;
-  max-height: 1.55in;
+  height: 1.4in;
+  display: flex;
+  align-items: flex-end;
+  @media screen {
+    &:hover {
+      outline: 1px solid red;
+    }
+  }
 `
 interface Props {
   voterId: string
@@ -261,17 +241,6 @@ const MailInserts = ({
             </ToAddress>
           </div>
         </OutboundWindow>
-        {/* <OutboundSenderWindow>
-          <OutboundSenderAddress>
-            {jurisdictionAddress}
-          </OutboundSenderAddress>
-        </OutboundSenderWindow>
-        <OutboundVoterWindow>
-          <IMb>{voterAddressIMb}</IMb>
-          <OutboundVoterAddress>
-            {voterAddress}
-          </OutboundVoterAddress>
-        </OutboundVoterWindow> */}
         <Instructions>
           <Markdown maxWidth={false}>
             {insertInstructionsMarkdown}
