@@ -25,6 +25,7 @@ import LinkButton from './LinkButton'
 import AddElectionScreen from '../screens/AddElectionScreen'
 import AuthenticationScreen from '../screens/AuthenticationScreen'
 import InsertsEditScreen from '../screens/InsertsEditScreen'
+import InsertOnDemandScreen from '../screens/InsertOnDemandScreen'
 import VotersListScreen from '../screens/VotersListScreen'
 import VoterBallotScreen from '../screens/VoterBallotScreen'
 import ElectionsScreen from '../screens/ElectionsScreen'
@@ -178,7 +179,27 @@ const MailBallotManager = () => {
       </Screen>
     )
   } else {
-    return <AuthenticationScreen />
+    return (
+      <Switch>
+	<Route
+	  exact
+	  path="/insert-on-demand"
+	>
+	  <Screen>
+            <Main padded>
+	      <InsertOnDemandScreen />
+	    </Main>
+            <Navigation />
+	  </Screen>
+	</Route>
+	<Route
+	  exact
+	  path="/"
+	>
+	  <AuthenticationScreen />
+	</Route>
+      </Switch>
+    )
   }
 }
 
