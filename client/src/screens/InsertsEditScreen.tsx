@@ -1,9 +1,10 @@
-import React, { useRef, useLayoutEffect, useContext } from 'react'
+import React, { useRef, useLayoutEffect, useContext, useState } from 'react'
 import { Previewer } from 'pagedjs'
 
 import AppContext from '../contexts/AppContext'
 import Prose from '../components/Prose'
 import MailInserts from '../components/MailInserts'
+import Textarea from '../components/Textarea'
 
 const insertDeclarationMarkdown = `
 # Voter’s Declaration <small>I declare that…</small>
@@ -39,8 +40,10 @@ const insertInstructionsMarkdown = `
 
 const InsertsEditScreen = () => {
   const { printAreaRef } = useContext(AppContext)
-
   const insertsRef = useRef<HTMLDivElement>(null)
+
+  const [declaration, setDeclaration] = useState(insertDeclarationMarkdown)
+  const [instructions, setInstructions] = useState(insertInstructionsMarkdown)
 
   useLayoutEffect(() => {
     const printArea = printAreaRef?.current
@@ -49,7 +52,7 @@ const InsertsEditScreen = () => {
       return
     }
 
-    ; (async () => {
+    ;(async () => {
       const flow = await new Previewer().preview(
         insertsRef.current!.innerHTML,
         ['/inserts/inserts.css'],
@@ -61,15 +64,27 @@ const InsertsEditScreen = () => {
     return () => {
       printArea.innerHTML = ''
     }
-  }, [
-    printAreaRef,
-  ])
+  }, [printAreaRef])
 
   return (
     <React.Fragment>
       <Prose>
         <h1>Mail Ballot Inserts</h1>
+        <p>
+          Allowed markdown: b, em, h1, h2, h3, li, ol, p, small (use html tag as
+          this is not supported in markdown), strong, ul
+        </p>
       </Prose>
+      <Textarea
+        onChange={(e) => setInstructions(e.currentTarget.value)}
+        value={instructions}
+        resize={false}
+      />
+      <Textarea
+        onChange={(e) => setDeclaration(e.currentTarget.value)}
+        value={declaration}
+        resize={false}
+      />
       <div ref={insertsRef}>
         <MailInserts
           voterId={`123456`}
@@ -92,8 +107,8 @@ const InsertsEditScreen = () => {
           jurisdictionAddressState={`HN`}
           jurisdictionAddressZipCode={`99999-1234`}
           jurisdictionAddressIMb={`FFTTDAADTTADTFDDFDDTFAFATDTDDFDAFDADDADDAFAAAFTTFTFDTFAAADADDDFDF`}
-          insertDeclarationMarkdown={insertDeclarationMarkdown}
-          insertInstructionsMarkdown={insertInstructionsMarkdown}
+          insertDeclarationMarkdown={declaration}
+          insertInstructionsMarkdown={instructions}
         />
       </div>
     </React.Fragment>
