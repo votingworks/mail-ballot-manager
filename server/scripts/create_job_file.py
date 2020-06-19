@@ -1,7 +1,7 @@
 import sys, os, uuid, zipfile, random, tempfile
 from urllib.parse import urlencode
 
-from ..util.csv_parse import parse_csv, CSVValueType, CSVColumnType
+from util.csv_parse import parse_csv, CSVValueType, CSVColumnType
 
 VOTER_ID = "Voter ID"
 BALLOT_STYLE_ID = "Ballot Style ID"
@@ -51,7 +51,8 @@ INSERT_URL = "http://localhost:3000/insert-on-demand"
 
 def html_to_pdf(url, pdf_file, time_to_render=300):
     os.system(
-        f'google-chrome --headless --print-to-pdf={pdf_file} --virtual-time-budget={str(time_to_render)} --no-margins "{url}"'
+#        f'google-chrome --headless --print-to-pdf={pdf_file} --virtual-time-budget={str(time_to_render)} --no-margins "{url}"'
+        f'node scripts/puppeteer-render-insert.js "{url}" {pdf_file}'
     )
 
 
