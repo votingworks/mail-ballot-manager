@@ -6,7 +6,7 @@ interface Props {
   textCenter?: boolean
 }
 
-const Prose = styled('div') <Props>`
+const Prose = styled('div')<Props>`
   margin: ${({ textCenter }) => (textCenter ? 'auto' : undefined)};
 
   /* width: 100%; */

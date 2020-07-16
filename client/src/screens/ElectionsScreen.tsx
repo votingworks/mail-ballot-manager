@@ -32,7 +32,12 @@ const ElectionsScreen = () => {
         </thead>
         <tbody>
           {mailElections?.map((mailElection) => {
-            const { name, createdAt, electionTitle, electionDate } = mailElection
+            const {
+              name,
+              createdAt,
+              electionTitle,
+              electionDate,
+            } = mailElection
             return (
               <tr key={mailElection.id}>
                 <td>{truncateString(name, 20)}</td>

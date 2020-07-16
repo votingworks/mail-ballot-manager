@@ -32,19 +32,17 @@ const ElectionScreen = () => {
           {electionTitle}, {shortDate(electionDate!)}
         </p>
       ) : (
-          <p>
-            <LinkButton
-              to={routerPaths.electionUploadBallotPackage({ electionId })}
-            >
-              Add Election Ballot Package
-            </LinkButton>
-          </p>
-        )}
-      {!hasVoters && (
         <p>
           <LinkButton
-            to={routerPaths.electionVoters({ electionId })}
+            to={routerPaths.electionUploadBallotPackage({ electionId })}
           >
+            Add Election Ballot Package
+          </LinkButton>
+        </p>
+      )}
+      {!hasVoters && (
+        <p>
+          <LinkButton to={routerPaths.electionVoters({ electionId })}>
             Add Voters
           </LinkButton>
         </p>

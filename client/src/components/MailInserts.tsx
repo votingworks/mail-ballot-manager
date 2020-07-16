@@ -7,7 +7,7 @@ const InsertPage = styled.div`
   height: 11in;
   @media screen {
     position: relative;
-    box-shadow: 2px 3px 7px rgba(0,0,0,0.3);
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.3);
     margin: 0.25in auto;
     background-color: #ffffff;
     font-size: 9pt;
@@ -214,37 +214,42 @@ const MailInserts = ({
   insertDeclarationMarkdown,
   insertInstructionsMarkdown,
 }: Props) => {
+  const jurisdictionAddress = (
+    <React.Fragment>
+      {jurisdictionAddressName}
+      <br />
+      {jurisdictionAddressStreet1}
+      {jurisdictionAddressStreet2 && `, ${jurisdictionAddressStreet2}`}
+      <br />
+      {jurisdictionAddressCity.toUpperCase()}{' '}
+      {jurisdictionAddressState.toUpperCase()} {jurisdictionAddressZipCode}
+    </React.Fragment>
+  )
 
-  const jurisdictionAddress = <React.Fragment>
-    {jurisdictionAddressName}<br />
-    {jurisdictionAddressStreet1}{jurisdictionAddressStreet2 && `, ${jurisdictionAddressStreet2}`}<br />
-    {jurisdictionAddressCity.toUpperCase()} {jurisdictionAddressState.toUpperCase()} {jurisdictionAddressZipCode}
-  </React.Fragment>
-
-  const voterAddress = <React.Fragment>
-    {voterFirstName} {voterMiddleName} {voterLastName}{voterNameSuffix && `, ${voterNameSuffix}`}<br />
-    {voterStreet1}{voterStreet2 && `, ${voterStreet2}`}<br />
-    {voterCity.toUpperCase()} {voterState.toUpperCase()} {voterZipCode}
-  </React.Fragment>
+  const voterAddress = (
+    <React.Fragment>
+      {voterFirstName} {voterMiddleName} {voterLastName}
+      {voterNameSuffix && `, ${voterNameSuffix}`}
+      <br />
+      {voterStreet1}
+      {voterStreet2 && `, ${voterStreet2}`}
+      <br />
+      {voterCity.toUpperCase()} {voterState.toUpperCase()} {voterZipCode}
+    </React.Fragment>
+  )
 
   return (
     <React.Fragment>
       <InsertPage>
         <OutboundWindow>
-          <FromAddress>
-            {jurisdictionAddress}
-          </FromAddress>
+          <FromAddress>{jurisdictionAddress}</FromAddress>
           <div>
             <IMb>{voterAddressIMb}</IMb>
-            <ToAddress>
-              {voterAddress}
-            </ToAddress>
+            <ToAddress>{voterAddress}</ToAddress>
           </div>
         </OutboundWindow>
         <Instructions>
-          <Markdown maxWidth={false}>
-            {insertInstructionsMarkdown}
-          </Markdown>
+          <Markdown maxWidth={false}>{insertInstructionsMarkdown}</Markdown>
         </Instructions>
       </InsertPage>
 
@@ -254,39 +259,27 @@ const MailInserts = ({
 
       <InsertPage>
         <Declaration>
-          <Markdown maxWidth={false}>
-            {insertDeclarationMarkdown}
-          </Markdown>
+          <Markdown maxWidth={false}>{insertDeclarationMarkdown}</Markdown>
         </Declaration>
         <InboundWindow>
           <VoterInfo>
             <VoterSignature>
-              <SignatureArrow>
-                Sign Here
-                </SignatureArrow>
+              <SignatureArrow>Sign Here</SignatureArrow>
               <SignatureLine>
                 Voter Signature <strong>(sign in ink)</strong>
               </SignatureLine>
-              <DateLine>
-                Date Signed
-              </DateLine>
+              <DateLine>Date Signed</DateLine>
             </VoterSignature>
             <VoterData>
               <VoterAddress>
-                <FromAddress>
-                  {voterAddress}
-                </FromAddress>
+                <FromAddress>{voterAddress}</FromAddress>
               </VoterAddress>
-              <VoterBarcode>
-                {/* { voterId } */}
-              </VoterBarcode>
+              <VoterBarcode>{/* { voterId } */}</VoterBarcode>
             </VoterData>
           </VoterInfo>
           <InboundJurisdiction>
             <IMb>{jurisdictionAddressIMb}</IMb>
-            <ToAddress>
-              {jurisdictionAddress}
-            </ToAddress>
+            <ToAddress>{jurisdictionAddress}</ToAddress>
           </InboundJurisdiction>
         </InboundWindow>
       </InsertPage>

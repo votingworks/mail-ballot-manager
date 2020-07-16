@@ -56,8 +56,8 @@ const AddElectionScreen = () => {
                   Election Name “{electionName}” already exists.
                 </Text>
               ) : (
-                  <React.Fragment>Election Name</React.Fragment>
-                )}
+                <React.Fragment>Election Name</React.Fragment>
+              )}
               <br />
               <input
                 ref={(input) => input && input.focus()}
