@@ -2,12 +2,46 @@ import React from 'react'
 import styled from 'styled-components'
 import Markdown from '../components/Markdown'
 
+const QACode = styled.div`
+  position: absolute;
+  width: 0.337in;
+  height: 0.323in;
+  background: black;
+  &::before {
+    content: 'RRD QA CODE';
+    display: block;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 6pt;
+    line-height: 1;
+    padding: 3pt;
+  }
+`
+
+const TempQACode = styled(QACode)`
+  left: 0.39in;
+  bottom: 0.39in;
+`
+const TempQACodeOutbound = styled(QACode)`
+  top: 0.05in;
+  right: 0.075in;
+`
+const TempQACodeString = styled.div`
+  position: absolute;
+  left: 0.17in;
+  bottom: 1.54in;
+  font-size: 6pt;
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+`
+
 const InsertPage = styled.div`
   width: 8.5in;
   height: 11in;
   @media screen {
     position: relative;
-    box-shadow: 2px 3px 7px rgba(0,0,0,0.3);
+    box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.3);
     margin: 0.25in auto;
     background-color: #ffffff;
     font-size: 9pt;
@@ -19,11 +53,11 @@ const InsertPageBlank = styled(InsertPage)`
   justify-content: center;
 `
 
-const ToAddress = styled.div`
+const LargeAddress = styled.div`
   font-size: 12pt;
   line-height: 1.2;
 `
-const FromAddress = styled.div`
+const SmallAddress = styled.div`
   font-size: 10pt;
   line-height: 1.2;
 `
@@ -214,84 +248,104 @@ const MailInserts = ({
   insertDeclarationMarkdown,
   insertInstructionsMarkdown,
 }: Props) => {
+  const jurisdictionAddress = (
+    <React.Fragment>
+      {jurisdictionAddressName}
+      <br />
+      {jurisdictionAddressStreet1}
+      {jurisdictionAddressStreet2 && `, ${jurisdictionAddressStreet2}`}
+      <br />
+      {jurisdictionAddressCity.toUpperCase()}{' '}
+      {jurisdictionAddressState.toUpperCase()} {jurisdictionAddressZipCode}
+    </React.Fragment>
+  )
 
-  const jurisdictionAddress = <React.Fragment>
-    {jurisdictionAddressName}<br />
-    {jurisdictionAddressStreet1}{jurisdictionAddressStreet2 && `, ${jurisdictionAddressStreet2}`}<br />
-    {jurisdictionAddressCity.toUpperCase()} {jurisdictionAddressState.toUpperCase()} {jurisdictionAddressZipCode}
-  </React.Fragment>
+  const voterAddress = (
+    <React.Fragment>
+      {voterFirstName} {voterMiddleName} {voterLastName}
+      {voterNameSuffix && `, ${voterNameSuffix}`}
+      <br />
+      {voterStreet1}
+      {voterStreet2 && `, ${voterStreet2}`}
+      <br />
+      {voterCity.toUpperCase()} {voterState.toUpperCase()} {voterZipCode}
+    </React.Fragment>
+  )
 
-  const voterAddress = <React.Fragment>
-    {voterFirstName} {voterMiddleName} {voterLastName}{voterNameSuffix && `, ${voterNameSuffix}`}<br />
-    {voterStreet1}{voterStreet2 && `, ${voterStreet2}`}<br />
-    {voterCity.toUpperCase()} {voterState.toUpperCase()} {voterZipCode}
-  </React.Fragment>
+  const showSampleQAContent =
+    process.env.REACT_APP_SHOW_SAMPLE_QA_CONTENT === 'TRUE'
 
   return (
     <React.Fragment>
       <InsertPage>
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <OutboundWindow>
-          <FromAddress>
+          <SmallAddress>
+            {showSampleQAContent && <TempQACodeOutbound />}
             {jurisdictionAddress}
-          </FromAddress>
+          </SmallAddress>
           <div>
             <IMb>{voterAddressIMb}</IMb>
-            <ToAddress>
-              {voterAddress}
-            </ToAddress>
+            <SmallAddress>{voterAddress}</SmallAddress>
           </div>
         </OutboundWindow>
         <Instructions>
-          <Markdown maxWidth={false}>
-            {insertInstructionsMarkdown}
-          </Markdown>
+          <Markdown maxWidth={false}>{insertInstructionsMarkdown}</Markdown>
         </Instructions>
       </InsertPage>
 
       <InsertPageBlank>
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <div>This page left blank intentionally.</div>
       </InsertPageBlank>
 
       <InsertPage>
+        {showSampleQAContent && <TempQACode />}
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <Declaration>
-          <Markdown maxWidth={false}>
-            {insertDeclarationMarkdown}
-          </Markdown>
+          <Markdown maxWidth={false}>{insertDeclarationMarkdown}</Markdown>
         </Declaration>
         <InboundWindow>
           <VoterInfo>
             <VoterSignature>
-              <SignatureArrow>
-                Sign Here
-                </SignatureArrow>
+              <SignatureArrow>Sign Here</SignatureArrow>
               <SignatureLine>
                 Voter Signature <strong>(sign in ink)</strong>
               </SignatureLine>
-              <DateLine>
-                Date Signed
-              </DateLine>
+              <DateLine>Date Signed</DateLine>
             </VoterSignature>
             <VoterData>
               <VoterAddress>
-                <FromAddress>
-                  {voterAddress}
-                </FromAddress>
+                <SmallAddress>{voterAddress}</SmallAddress>
               </VoterAddress>
-              <VoterBarcode>
-                {/* { voterId } */}
-              </VoterBarcode>
+              <VoterBarcode>{/* { voterId } */}</VoterBarcode>
             </VoterData>
           </VoterInfo>
           <InboundJurisdiction>
             <IMb>{jurisdictionAddressIMb}</IMb>
-            <ToAddress>
-              {jurisdictionAddress}
-            </ToAddress>
+            <LargeAddress>{jurisdictionAddress}</LargeAddress>
           </InboundJurisdiction>
         </InboundWindow>
       </InsertPage>
 
       <InsertPageBlank>
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <div>This page left blank intentionally.</div>
       </InsertPageBlank>
     </React.Fragment>

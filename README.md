@@ -124,7 +124,15 @@ Requires Linux or Docker.
 
 2. Run the Python backend and React front-end with auto-reload:
 
-   ./run-dev.sh
+```
+./run-dev.sh
+```
+
+or to show QA Codes
+
+```
+REACT_APP_SHOW_SAMPLE_QA_CONTENT=TRUE ./run-dev.sh
+```
 
 Whenever you want to reset the database:
 

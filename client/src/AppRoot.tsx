@@ -28,7 +28,9 @@ const AppRoot = () => {
   const [user, setUser] = useState<OptionalUser>()
   const [mailElections, setMailElections] = useState<OptionalMailElections>()
   const [voters, setVoters] = useState<VotersDictionary>({})
-  const [electionDefinitions, setElectionDefinitions] = useState<ElectionDefinitionsDictionary>({})
+  const [electionDefinitions, setElectionDefinitions] = useState<
+    ElectionDefinitionsDictionary
+  >({})
 
   const signOut = () => {
     setUser(undefined)
@@ -53,9 +55,9 @@ const AppRoot = () => {
   }, [loadMailElections])
 
   const loadVoters = useCallback(async () => {
-    mailElections?.forEach(async me => {
+    mailElections?.forEach(async (me) => {
       const { voters: newVoters } = await getVoters({ electionId: me.id })
-      setVoters(v => ({
+      setVoters((v) => ({
         ...v,
         [me.id]: newVoters,
       }))
@@ -67,10 +69,10 @@ const AppRoot = () => {
   }, [loadVoters])
 
   const loadElectionDefinitions = useCallback(async () => {
-    mailElections?.map(async me => {
+    mailElections?.map(async (me) => {
       try {
         const newDefinition = await getElectionDefinition({ electionId: me.id })
-        setElectionDefinitions(d => ({
+        setElectionDefinitions((d) => ({
           ...d,
           [me.id]: newDefinition,
         }))

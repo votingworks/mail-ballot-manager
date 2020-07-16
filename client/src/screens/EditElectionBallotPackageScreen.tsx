@@ -20,7 +20,10 @@ const EditElectionBallotPackageScreen = () => {
 
   const [election, setElection] = useState<Election>()
   const [ballotNames, setBallotNames] = useState<string[]>()
-  const [currentUploadingBallotIndex, setCurrentUploadingBallotIndex] = useState(-1)
+  const [
+    currentUploadingBallotIndex,
+    setCurrentUploadingBallotIndex,
+  ] = useState(-1)
   const [totalTemplates, setTotalTemplates] = useState(0)
   const [currentUploadingBallot, setCurrentUploadingBallot] = useState<
     BallotPackageEntry
@@ -59,11 +62,7 @@ const EditElectionBallotPackageScreen = () => {
         })
       }
     },
-    [
-      electionId,
-      history,
-      loadMailElections,
-    ]
+    [electionId, history, loadMailElections]
   )
 
   if (totalTemplates > 0 && currentUploadingBallot) {

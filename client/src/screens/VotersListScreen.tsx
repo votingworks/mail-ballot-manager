@@ -42,7 +42,10 @@ const VotersListScreen = () => {
       setIsVoterMailingListError(false)
       try {
         const fileContent = await readFileAsync(file)
-        await putVoterMailingList({ electionId, voterMailingListFile: fileContent })
+        await putVoterMailingList({
+          electionId,
+          voterMailingListFile: fileContent,
+        })
         await loadVoters()
       } catch (error) {
         setIsVoterMailingListError(true)
@@ -68,13 +71,14 @@ const VotersListScreen = () => {
       <Prose maxWidth={false}>
         {!!paginatedVoters?.length ? (
           <React.Fragment>
-
             <h1>Voters</h1>
             {/* <p>
             <LinkButton small>Add another VoterMailingList…</LinkButton>
           </p> */}
             <p>Upload Election Ballot Package to see precinct names.</p>
-            <p>1–{paginatedVoters.length} of {voters!.length} voters</p>
+            <p>
+              1–{paginatedVoters.length} of {voters!.length} voters
+            </p>
             <Table>
               <thead>
                 <tr>
@@ -109,57 +113,61 @@ const VotersListScreen = () => {
                     ballotStyleId,
                     precinctId,
                   }) => (
-                      <tr key={id}>
-                        <td>{firstName}</td>
-                        <td>{middleName}</td>
-                        <td>{lastName}</td>
-                        <td>{nameSuffix}</td>
-                        <td>
-                          {hasElectionDefinition ?
-                            getPrecinctById({ election: electionDefinition, precinctId })?.name : precinctId}
-                        </td>
-                        <td>{ballotStyleId}</td>
-                        <td>{street1}</td>
-                        <td>{street2}</td>
-                        <td>{city}</td>
-                        <td>{state}</td>
-                        <td>{zipCode}</td>
-                        <td>STATUS</td>
-                        <td>
-                          <LinkButton
-                            small
-                            to={routerPaths.voterBallot({
-                              voterId: id,
-                              electionId,
-                            })}
-                          >
-                            view ballot
-                          </LinkButton>
-                        </td>
-                      </tr>
-                    )
+                    <tr key={id}>
+                      <td>{firstName}</td>
+                      <td>{middleName}</td>
+                      <td>{lastName}</td>
+                      <td>{nameSuffix}</td>
+                      <td>
+                        {hasElectionDefinition
+                          ? getPrecinctById({
+                              election: electionDefinition,
+                              precinctId,
+                            })?.name
+                          : precinctId}
+                      </td>
+                      <td>{ballotStyleId}</td>
+                      <td>{street1}</td>
+                      <td>{street2}</td>
+                      <td>{city}</td>
+                      <td>{state}</td>
+                      <td>{zipCode}</td>
+                      <td>STATUS</td>
+                      <td>
+                        <LinkButton
+                          small
+                          to={routerPaths.voterBallot({
+                            voterId: id,
+                            electionId,
+                          })}
+                        >
+                          view ballot
+                        </LinkButton>
+                      </td>
+                    </tr>
+                  )
                 )}
               </tbody>
             </Table>
           </React.Fragment>
         ) : (
-            <React.Fragment>
-              <h1>Voters</h1>
-              {isVoterMailingListError && (
-                <p>Invalid Voter Mailing List CSV File.</p>
-              )}
-              <p>
-                <FileInputButton
-                  id="voter-mailing-list"
-                  name="voter-mailing-list"
-                  accept=".csv,text/csv"
-                  onChange={handleVoterMailingListCSV}
-                >
-                  Select Voter Mailing List CSV file…
+          <React.Fragment>
+            <h1>Voters</h1>
+            {isVoterMailingListError && (
+              <p>Invalid Voter Mailing List CSV File.</p>
+            )}
+            <p>
+              <FileInputButton
+                id="voter-mailing-list"
+                name="voter-mailing-list"
+                accept=".csv,text/csv"
+                onChange={handleVoterMailingListCSV}
+              >
+                Select Voter Mailing List CSV file…
               </FileInputButton>
-              </p>
-            </React.Fragment>
-          )}
+            </p>
+          </React.Fragment>
+        )}
       </Prose>
     </MainChild>
   )

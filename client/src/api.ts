@@ -14,7 +14,7 @@ const useFakeAPI = false
 
 // TODO: remove
 function sleep(ms: number = 2000) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 // TODO: remove
 const mailElection: MailElection = {
@@ -133,13 +133,17 @@ export const putVoterMailingList = async ({
 }: {
   electionId: string
   voterMailingListFile: string
-}) => await fetchJSON<{ status: string }>(`/api/mailelection/${electionId}/voters/file`, {
-  method: 'put',
-  body: voterMailingListFile,
-  headers: {
-    'Content-Type': 'application/csv'
-  }
-})
+}) =>
+  await fetchJSON<{ status: string }>(
+    `/api/mailelection/${electionId}/voters/file`,
+    {
+      method: 'put',
+      body: voterMailingListFile,
+      headers: {
+        'Content-Type': 'application/csv',
+      },
+    }
+  )
 
 export const getVoters = async ({
   electionId,

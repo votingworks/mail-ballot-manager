@@ -26,12 +26,12 @@ const AuthenicationScreen = () => {
       {loading ? (
         <Loading isFullscreen>Signing in</Loading>
       ) : (
-          <Main padded>
-            <MainChild>
-              <Button onPress={signIn}>Sign In</Button>
-            </MainChild>
-          </Main>
-        )}
+        <Main padded>
+          <MainChild>
+            <Button onPress={signIn}>Sign In</Button>
+          </MainChild>
+        </Main>
+      )}
       <Navigation />
     </Screen>
   )

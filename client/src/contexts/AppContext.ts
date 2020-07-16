@@ -6,7 +6,7 @@ import {
   OptionalMailElections,
   SetVoters,
   VotersDictionary,
-  ElectionDefinitionsDictionary
+  ElectionDefinitionsDictionary,
 } from '../config/types'
 
 interface AppContextInterface {

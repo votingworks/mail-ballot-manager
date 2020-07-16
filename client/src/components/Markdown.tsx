@@ -41,16 +41,18 @@ const Markdown = ({
 }: Props) => {
   const htmlContent = marked(children)
   const cleanHHtmContent = DOMPurify.sanitize(htmlContent, { ALLOWED_TAGS })
-  const removed = DOMPurify.removed.map((item, index) => ({
-    index,
-    tagName: item.element.tagName.toLowerCase(),
-    outerHTML: item.element.outerHTML,
-  })).filter(item => item.tagName !== 'body')
+  const removed = DOMPurify.removed
+    .map((item, index) => ({
+      index,
+      tagName: item.element.tagName.toLowerCase(),
+      outerHTML: item.element.outerHTML,
+    }))
+    .filter((item) => item.tagName !== 'body')
   return (
     <React.Fragment>
       {removed.length !== 0 && (
         <ErrorList>
-          {removed.map(({ index, tagName, outerHTML }) =>
+          {removed.map(({ index, tagName, outerHTML }) => (
             <React.Fragment key={index}>
               <dt>
                 Disallowed tag <code>{tagName}</code> removed. Tag found in:
@@ -59,13 +61,15 @@ const Markdown = ({
                 <code>{outerHTML}</code>
               </dd>
             </React.Fragment>
-          )}
+          ))}
         </ErrorList>
       )}
-      <Prose maxWidth={maxWidth} dangerouslySetInnerHTML={{ __html: cleanHHtmContent }} />
+      <Prose
+        maxWidth={maxWidth}
+        dangerouslySetInnerHTML={{ __html: cleanHHtmContent }}
+      />
     </React.Fragment>
   )
 }
-
 
 export default Markdown
