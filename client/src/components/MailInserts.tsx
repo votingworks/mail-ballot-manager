@@ -19,11 +19,11 @@ const InsertPageBlank = styled(InsertPage)`
   justify-content: center;
 `
 
-const ToAddress = styled.div`
+const LargeAddress = styled.div`
   font-size: 12pt;
   line-height: 1.2;
 `
-const FromAddress = styled.div`
+const SmallAddress = styled.div`
   font-size: 10pt;
   line-height: 1.2;
 `
@@ -242,10 +242,10 @@ const MailInserts = ({
     <React.Fragment>
       <InsertPage>
         <OutboundWindow>
-          <FromAddress>{jurisdictionAddress}</FromAddress>
+          <SmallAddress>{jurisdictionAddress}</SmallAddress>
           <div>
             <IMb>{voterAddressIMb}</IMb>
-            <ToAddress>{voterAddress}</ToAddress>
+            <SmallAddress>{voterAddress}</SmallAddress>
           </div>
         </OutboundWindow>
         <Instructions>
@@ -272,14 +272,14 @@ const MailInserts = ({
             </VoterSignature>
             <VoterData>
               <VoterAddress>
-                <FromAddress>{voterAddress}</FromAddress>
+                <SmallAddress>{voterAddress}</SmallAddress>
               </VoterAddress>
               <VoterBarcode>{/* { voterId } */}</VoterBarcode>
             </VoterData>
           </VoterInfo>
           <InboundJurisdiction>
             <IMb>{jurisdictionAddressIMb}</IMb>
-            <ToAddress>{jurisdictionAddress}</ToAddress>
+            <LargeAddress>{jurisdictionAddress}</LargeAddress>
           </InboundJurisdiction>
         </InboundWindow>
       </InsertPage>
