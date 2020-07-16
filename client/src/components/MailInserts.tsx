@@ -2,6 +2,40 @@ import React from 'react'
 import styled from 'styled-components'
 import Markdown from '../components/Markdown'
 
+const QACode = styled.div`
+  position: absolute;
+  width: 0.337in;
+  height: 0.323in;
+  background: black;
+  &::before {
+    content: 'RRD QA CODE';
+    display: block;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    font-size: 6pt;
+    line-height: 1;
+    padding: 3pt;
+  }
+`
+
+const TempQACode = styled(QACode)`
+  left: 0.39in;
+  bottom: 0.39in;
+`
+const TempQACodeOutbound = styled(QACode)`
+  top: 0.05in;
+  right: 0.075in;
+`
+const TempQACodeString = styled.div`
+  position: absolute;
+  left: 0.17in;
+  bottom: 1.54in;
+  font-size: 6pt;
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+`
+
 const InsertPage = styled.div`
   width: 8.5in;
   height: 11in;
@@ -238,11 +272,22 @@ const MailInserts = ({
     </React.Fragment>
   )
 
+  const showSampleQAContent =
+    process.env.REACT_APP_SHOW_SAMPLE_QA_CONTENT === 'TRUE'
+
   return (
     <React.Fragment>
       <InsertPage>
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <OutboundWindow>
-          <SmallAddress>{jurisdictionAddress}</SmallAddress>
+          <SmallAddress>
+            {showSampleQAContent && <TempQACodeOutbound />}
+            {jurisdictionAddress}
+          </SmallAddress>
           <div>
             <IMb>{voterAddressIMb}</IMb>
             <SmallAddress>{voterAddress}</SmallAddress>
@@ -254,10 +299,21 @@ const MailInserts = ({
       </InsertPage>
 
       <InsertPageBlank>
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <div>This page left blank intentionally.</div>
       </InsertPageBlank>
 
       <InsertPage>
+        {showSampleQAContent && <TempQACode />}
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <Declaration>
           <Markdown maxWidth={false}>{insertDeclarationMarkdown}</Markdown>
         </Declaration>
@@ -285,6 +341,11 @@ const MailInserts = ({
       </InsertPage>
 
       <InsertPageBlank>
+        {showSampleQAContent && (
+          <TempQACodeString>
+            9996-01-b1-0000001-0001-0000001 RID-1005487
+          </TempQACodeString>
+        )}
         <div>This page left blank intentionally.</div>
       </InsertPageBlank>
     </React.Fragment>
