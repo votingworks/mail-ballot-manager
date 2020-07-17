@@ -25,7 +25,10 @@ const AppRoot = () => {
   const history = useHistory()
   const printAreaRef = useRef<HTMLDivElement>(null)
 
-  const [user, setUser] = useState<OptionalUser>()
+  const [user, setUser] = useState<OptionalUser>({
+    id: 'foo',
+    email: 'beau@voting.works',
+  })
   const [mailElections, setMailElections] = useState<OptionalMailElections>()
   const [voters, setVoters] = useState<VotersDictionary>({})
   const [electionDefinitions, setElectionDefinitions] = useState<

@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+
 import Markdown from '../components/Markdown'
+import Prose from '../components/Prose'
+import Text from './Text'
 
 const QACode = styled.div`
   position: absolute;
@@ -194,16 +197,62 @@ const Declaration = styled.div`
   position: absolute;
   top: 0.25in;
   left: 0.25in;
-  right: 0.25in;
+  right: 3.65in;
   height: 1.4in;
   display: flex;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   @media screen {
     &:hover {
       outline: 1px solid red;
     }
   }
 `
+
+const DeclarationContinued = styled.div`
+  position: absolute;
+  top: 0.25in;
+  left: 5.1875in;
+  right: 0.25in;
+  /* height: 1.4in; */
+  display: flex;
+  hr {
+    position: relative;
+    top: 1em;
+  }
+  /* align-items: flex-end; */
+  @media screen {
+    &:hover {
+      outline: 1px solid red;
+    }
+  }
+`
+
+const VoterReceipt = styled.div`
+  position: absolute;
+  top: 5.5in;
+  left: 0;
+  right: 0;
+  height: 5.5in;
+  border-top: 1pt dashed black;
+  padding: 0.5in 1in 1in;
+`
+const VoterReceiptTearContainer = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 2pt 0.125in 0;
+`
+const VoterReceiptTearHere = styled.div`
+  text-transform: uppercase;
+  &::before,
+  &::after {
+    content: ' ▲ ';
+  }
+`
+
 interface Props {
   voterId: string
   voterFirstName: string
@@ -226,6 +275,7 @@ interface Props {
   jurisdictionAddressZipCode: string
   jurisdictionAddressIMb: string
   insertDeclarationMarkdown: string
+  insertDeclarationContinuedMarkdown: string
   insertInstructionsMarkdown: string
 }
 
@@ -251,6 +301,7 @@ const MailInserts = ({
   jurisdictionAddressZipCode,
   jurisdictionAddressIMb,
   insertDeclarationMarkdown,
+  insertDeclarationContinuedMarkdown,
   insertInstructionsMarkdown,
 }: Props) => {
   const jurisdictionAddress = (
@@ -323,6 +374,11 @@ const MailInserts = ({
         <Declaration>
           <Markdown maxWidth={false}>{insertDeclarationMarkdown}</Markdown>
         </Declaration>
+        <DeclarationContinued>
+          <Markdown maxWidth={false}>
+            {insertDeclarationContinuedMarkdown}
+          </Markdown>
+        </DeclarationContinued>
         <InboundWindow>
           <VoterInfo>
             <VoterSignature>
@@ -344,6 +400,31 @@ const MailInserts = ({
             <LargeAddress>{jurisdictionAddress}</LargeAddress>
           </InboundJurisdiction>
         </InboundWindow>
+        <VoterReceipt>
+          <VoterReceiptTearContainer>
+            <VoterReceiptTearHere>
+              <Text small as="span">
+                Tear Here
+              </Text>
+            </VoterReceiptTearHere>
+            <VoterReceiptTearHere>
+              <Text small as="span">
+                Tear Here
+              </Text>
+            </VoterReceiptTearHere>
+          </VoterReceiptTearContainer>
+          <Prose maxWidth={false}>
+            <h1>Voter Receipt</h1>
+            <p>Save this half-sheet </p>
+            <p>
+              Penalties for vote fraud are up to five (5) years in prison and a
+              fine of up to Five Thousand Dollars ($5,000.00). (Miss. Code, Ann.
+              Section 23-15-753.) Penalties for voter intimidation are up to one
+              (1) year in jail and a fine of up to One Thousand Dollars
+              ($1,000.00). (Miss. Code. Ann. Section 97-13-37).
+            </p>
+          </Prose>
+        </VoterReceipt>
       </InsertPage>
 
       <InsertPageBlank>

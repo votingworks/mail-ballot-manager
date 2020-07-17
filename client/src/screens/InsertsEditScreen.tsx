@@ -6,18 +6,59 @@ import Prose from '../components/Prose'
 import MailInserts from '../components/MailInserts'
 import Textarea from '../components/Textarea'
 
+const insertLegalese = `
+Penalties for vote fraud are up to five (5) years in prison and a fine of up to Five Thousand Dollars ($5,000.00). (Miss. Code, Ann. Section 23-15-753.) Penalties for voter intimidation are up to one (1) year in jail and a fine of up to One Thousand Dollars ($1,000.00). (Miss. Code. Ann. Section 97-13-37).
+
+Notice to Absent Elector: Ballots personally cast in the registrar’s office must be cast no later than 12:00 noon on the Saturday immediately preceding elections held on Tue day, the Thursday immediately preceding elections held on Saturday, or the day immediately preceding the date of elections held on other days. If mailed the envelope and ballot must be received by 5:00 p.m. on the date preceding the election and immediately placed in the proper ballot box.
+`
+
 const insertDeclarationMarkdown = `
-# Voter’s Declaration <small>I declare that…</small>
+## Voter Affidavit
 
-- I am qualified and registered to vote as the person named at the address listed below.
-- I am voting in conformity with local and state election law.
-- I have not applied, nor will I apply for a vote-by-mail ballot from any other jurisdiction in this election.
-- I understand that knowingly making a false statement is a misdemeanor.
+Under penalty of perjury, I do solemnly swear this ballot was marked by me indicating my choice of the candidates or propositions to be submitted at the election to be held on **November 3, 2020**, and I hereby authorize the registrar to place this envelope in the ballot box on my behalf, and I further authorize the election managers to place my ballot among the other ballots cast before such ballots are counted, and record my name on the poll list as if I were present in person and voted. I further swear that I marked this ballot in secret.
+`
 
-The below box must be signed or your vote will not be counted. **You must sign in your own handwriting. Power of attorney is not acceptable.** Your signature must match the signature on your voter registration card.
+const insertDeclarationContinuedMarkdown = `
+If you have obtained the enclosed ballot by reason of a temporary or permanent physical disability, you are not required to have the following certificate of attesting witness notarized, but it must be signed by a person eighteen (18) years of age or older.
+
+## Certificate Of Attesting Witness
+
+Under penalty of perjury I affirm that the above named voter personally appeared before me and is known by me to be the person named, and who, after being duly sworn or having affirmed,subscribed the foregoing oath or affirmation. That the voter exhibited to me their blank ballot; that the ballot was not marked or voted before the voter exhibited the ballot to me; that the voter was not solicited or advised by me to vote for any candidate, question or issue, and that the voter, after marking their ballot will place it in the return envelope, swear or affirm the voter affidavit, and will close and seal the return envelope in my presence.
+
+---
+
+Signature of attesting witness (for disabled voters) or signature of person authorized to administer oaths (for voters not appearing before the circuit clerk)
+
+---
+
+Address
+
+---
+
+Official Title, City, State
+
+`
+const insertCertificateOfVoterAssistance = `
+## Certificate of Person Providing Voter Assistance
+
+(To be completed only if the voter has received assistance in marking the enclosed ballot.)
+
+I, under penalty of perjury, hereby certify that the above named voter declared to me that he or she is blind, temporarily or permanently physically disabled, or cannot read or write, and that the voter requested that I assist the voter in marking the enclosed absentee ballot. I hereby certify that the ballot preferences on the voter’s ballot are those communicated by the voter to me, and that I have marked the voter’s ballot in accordance with the voter’s instructions.
+
+---
+
+Signature / Printed Name (of person providing assistance)
+
+---
+
+Address
+
+---
+
+Date and time assistance provided / family relationship to voter (if any)
 `
 const insertInstructionsMarkdown = `
-# Vote-By-Mail Instructions
+# How to Vote by Mail
 
 Find contact information for your local election office by visiting **https://track.vote** in a web browser.
 
@@ -25,22 +66,28 @@ Find contact information for your local election office by visiting **https://tr
 
 Use a dark pen to completely fill in the oval to the left of your choices. If you make a mistake, contact your local election office for a new ballot.
 
-## 2. Add Your Signature
+## 2. Add Signatures
 
-Write your signature and the current date in the box above the return address.
+Write your signature and the current date in the box above the return address. Have your witness sign and date as well. Your ballot will be rejected and not counted if it is not signed by you and an attesting witness.
 
 ## 3. Save Your Receipt
 
 Separate your ballot receipt from the return label by tearing on the dotted line.
 
-## 4. Insert Ballot and Return Label
+## 4. Return Your Ballot
 
-Put your completed ballot and the return label in the return envelope. Make sure the mailing address is visible in the return envelope window.
+Place your completed ballot and the return label in the return envelope. Make sure the mailing address is visible in the return envelope window. Seal the envelope and place it in the mail. Be sure to return your ballot on time.
 
-## 5. Mail Your Ballot
-
-Be sure to return your ballot on time.
+**Notice to Absent Elector:** Ballots personally cast in the registrar’s office must be cast no later than 12:00 noon on the Saturday immediately preceding elections held on Tue day, the Thursday immediately preceding elections held on Saturday, or the  day immediately preceding the date of elections held on other days. If mailed the envelope and ballot must be received by 5:00 p.m. on the date preceding the election and immediately placed in the propoer ballot box.
 `
+
+// ## 4. Place Ballot and Return Label in Return Envelope
+
+// Place your completed ballot and the return label in the return envelope. Make sure the mailing address is visible in the return envelope window.
+
+// ## 5. Mail Your Ballot
+
+// Be sure to return your ballot on time.
 
 const InsertsEditScreen = () => {
   const { printAreaRef } = useContext(AppContext)
@@ -112,6 +159,9 @@ const InsertsEditScreen = () => {
           jurisdictionAddressZipCode={`99999-1234`}
           jurisdictionAddressIMb={`FFTTDAADTTADTFDDFDDTFAFATDTDDFDAFDADDADDAFAAAFTTFTFDTFAAADADDDFDF`}
           insertDeclarationMarkdown={declaration}
+          insertDeclarationContinuedMarkdown={
+            insertDeclarationContinuedMarkdown
+          }
           insertInstructionsMarkdown={instructions}
         />
       </div>

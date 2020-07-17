@@ -47,6 +47,7 @@ const Markdown = ({
     'small',
     'strong',
     'ul',
+    'hr',
   ],
   children,
   maxWidth,
