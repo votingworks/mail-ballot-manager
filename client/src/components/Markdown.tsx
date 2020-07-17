@@ -5,6 +5,18 @@ import styled from 'styled-components'
 
 import Prose from './Prose'
 
+var renderer = new marked.Renderer()
+
+// Override link method.
+// Do Not Autolink URLs. Link URLS are not sanitized.
+// Source method: https://github.com/markedjs/marked/blob/master/src/Renderer.js#L134-L145
+renderer.link = function (href: string, title: string, text: string) {
+  if (href === text) {
+    return href
+  }
+  return `<a href="${href}"${title ? ` title="${title}"` : ''}>${text}</a>`
+}
+
 const ErrorList = styled.dl`
   margin-bottom: 2em;
   color: red;
@@ -39,7 +51,7 @@ const Markdown = ({
   children,
   maxWidth,
 }: Props) => {
-  const htmlContent = marked(children)
+  const htmlContent = marked(children, { renderer })
   const cleanHHtmContent = DOMPurify.sanitize(htmlContent, { ALLOWED_TAGS })
   const removed = DOMPurify.removed
     .map((item, index) => ({

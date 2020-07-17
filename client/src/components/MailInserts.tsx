@@ -90,7 +90,12 @@ const Instructions = styled.div`
   right: 0.875in;
   left: 0.875in;
   height: 6.5in;
-  padding: 0 0.075in;
+  display: flex;
+  flex-direction: row;
+  > div {
+    flex: 1;
+    padding: 0 0.075in;
+  }
   @media screen {
     &:hover {
       outline: 1px solid red;
@@ -295,6 +300,7 @@ const MailInserts = ({
         </OutboundWindow>
         <Instructions>
           <Markdown maxWidth={false}>{insertInstructionsMarkdown}</Markdown>
+          <div>&nbsp;</div>
         </Instructions>
       </InsertPage>
 

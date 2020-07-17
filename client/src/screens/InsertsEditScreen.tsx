@@ -19,23 +19,27 @@ The below box must be signed or your vote will not be counted. **You must sign i
 const insertInstructionsMarkdown = `
 # Vote-By-Mail Instructions
 
-1Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Find contact information for your local election office by visiting **https://track.vote** in a web browser.
 
-1. Eu mi bibendum neque egestas congue quisque egestas diam.
-2. Tempus quam pellentesque nec nam aliquam sem et.
-3. Egestas purus viverra accumsan in nisl nisi. Nulla malesuada pellentesque elit eget gravida cum.
-4. Lobortis mattis aliquam faucibus purus in massa tempor nec. Adipiscing enim eu turpis egestas pretium aenean pharetra magna.
-5. Dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Erat nam at lectus urna duis convallis.
+## 1. Mark Your Ballot
 
-2Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum. In iaculis nunc sed augue lacus viverra vitae. Sed augue lacus viverra vitae congue eu consequat ac. Accumsan lacus vel facilisis volutpat est. Purus sit amet volutpat consequat mauris. Ultricies leo integer malesuada nunc vel risus commodo viverra maecenas.
+Use a dark pen to completely fill in the oval to the left of your choices. If you make a mistake, contact your local election office for a new ballot.
 
-3Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum. In iaculis nunc sed augue lacus viverra vitae. Sed augue lacus viverra vitae congue eu consequat ac. Accumsan lacus vel facilisis volutpat est. Purus sit amet volutpat consequat mauris. Ultricies leo integer malesuada nunc vel risus commodo viverra maecenas.
+## 2. Add Your Signature
 
-4Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum. In iaculis nunc sed augue lacus viverra vitae. Sed augue lacus viverra vitae congue eu consequat ac. Accumsan lacus vel facilisis volutpat est. Purus sit amet volutpat consequat mauris. Ultricies leo integer malesuada nunc vel risus commodo viverra maecenas.
+Write your signature and the current date in the box above the return address.
 
-5Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum. In iaculis nunc sed augue lacus viverra vitae. Sed augue lacus viverra vitae congue eu consequat ac. Accumsan lacus vel facilisis volutpat est. Purus sit amet volutpat consequat mauris. Ultricies leo integer malesuada nunc vel risus commodo viverra maecenas.
+## 3. Save Your Receipt
 
-6Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nunc mattis enim ut tellus elementum. In iaculis nunc sed augue lacus viverra vitae. Sed augue lacus viverra vitae congue eu consequat ac. Accumsan lacus vel facilisis volutpat est. Purus sit amet volutpat consequat mauris. Ultricies leo integer malesuada nunc vel risus commodo viverra maecenas.
+Separate your ballot receipt from the return label by tearing on the dotted line.
+
+## 4. Insert Ballot and Return Label
+
+Put your completed ballot and the return label in the return envelope. Make sure the mailing address is visible in the return envelope window.
+
+## 5. Mail Your Ballot
+
+Be sure to return your ballot on time.
 `
 
 const InsertsEditScreen = () => {
