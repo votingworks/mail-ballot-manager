@@ -1,5 +1,5 @@
 import React, { useContext, useCallback, useState } from 'react'
-import { Election } from '@votingworks/ballot-encoder'
+import { Election, getPrecinctById } from '@votingworks/ballot-encoder'
 import { useParams, useHistory } from 'react-router-dom'
 
 import { ElectionScreenProps } from '../config/types'
@@ -43,10 +43,10 @@ const EditElectionBallotPackageScreen = () => {
           for (const ballot of ballots) {
             setCurrentUploadingBallot(ballot)
             await putBallotTemplate({
-              ballotStyleId: ballot.ballotStyle.id,
+              ballotStyleId: ballot.ballotConfig.ballotStyleId,
               electionId,
-              file: ballot.file,
-              precinctId: ballot.precinct.id,
+              file: ballot.pdf,
+              precinctId: ballot.ballotConfig.precinctId,
             })
             setCurrentUploadingBallotIndex((prev) => prev + 1)
           }
@@ -54,7 +54,13 @@ const EditElectionBallotPackageScreen = () => {
           setElection(election)
           setBallotNames(
             ballots.map(
-              (ballot) => `${ballot.ballotStyle.id} / ${ballot.precinct.name}`
+              (ballot) =>
+                `${ballot.ballotConfig.ballotStyleId} / ${
+                  getPrecinctById({
+                    election,
+                    precinctId: ballot.ballotConfig.precinctId,
+                  })?.name
+                }`
             )
           )
           loadMailElections()
@@ -65,7 +71,7 @@ const EditElectionBallotPackageScreen = () => {
     [electionId, history, loadMailElections]
   )
 
-  if (totalTemplates > 0 && currentUploadingBallot) {
+  if (election && totalTemplates > 0 && currentUploadingBallot) {
     return (
       <MainChild center>
         <Prose textCenter>
@@ -74,8 +80,13 @@ const EditElectionBallotPackageScreen = () => {
             {totalTemplates}
           </h1>
           <p>
-            {currentUploadingBallot.ballotStyle.id} /{' '}
-            {currentUploadingBallot.precinct.name}
+            {currentUploadingBallot.ballotConfig.ballotStyleId} /{' '}
+            {
+              getPrecinctById({
+                election,
+                precinctId: currentUploadingBallot.ballotConfig.precinctId,
+              })?.name
+            }
           </p>
         </Prose>
       </MainChild>
