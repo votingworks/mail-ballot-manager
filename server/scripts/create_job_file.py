@@ -1,4 +1,11 @@
-import sys, os, uuid, zipfile, random, tempfile
+"""
+Usage (from up one directory):
+
+python -m scripts.create_job_file voters.csv output_job_file.zip ballot-1.pdf ballot-2.pdf
+
+"""
+
+import sys, os, uuid, zipfile, random, tempfile, re
 from urllib.parse import urlencode
 
 from util.csv_parse import parse_csv, CSVValueType, CSVColumnType
@@ -49,15 +56,17 @@ VOTERS_COLUMNS = [
 INSERT_URL = "http://localhost:3000/insert-on-demand"
 
 
-def html_to_pdf(url, pdf_file, time_to_render=300):
-    os.system(
-#        f'google-chrome --headless --print-to-pdf={pdf_file} --virtual-time-budget={str(time_to_render)} --no-margins "{url}"'
-        f'node scripts/puppeteer-render-insert.js "{url}" {pdf_file}'
-    )
+def html_to_pdf(url, pdf_file):
+    os.system(f'node scripts/puppeteer-render-insert.js "{url}" {pdf_file}')
 
 
 def combine_pdfs(first_pdf, second_pdf, output_pdf):
     os.system(f"pdfunite {first_pdf} {second_pdf} {output_pdf}")
+
+
+def pdf_get_num_pages(pdf_path):
+    line = os.popen(f"pdfinfo {pdf_path} | grep 'Pages:'").read()
+    return int(re.match("^Pages: *(\d+)", line).group(1))
 
 
 # FIXME FIXME FIXME: this is a hack that just rotates
@@ -75,6 +84,9 @@ def create_full_ballots(voter_file_path, output_path, ballot_path, ballot_path_2
         with open(voter_file_path, "r") as voter_file:
             voters_csv = parse_csv(voter_file.read(), VOTERS_COLUMNS)
 
+            total_num_files = 0
+            total_num_pages = 0
+
             for row in voters_csv:
                 fields = {value: row[key] for (key, value) in VOTER_FIELDS.items()}
                 full_url = INSERT_URL + "?" + urlencode(fields)
@@ -90,9 +102,16 @@ def create_full_ballots(voter_file_path, output_path, ballot_path, ballot_path_2
                 ballot_choice = random.choice([ballot_path, ballot_path_2])
                 combine_pdfs(insert_path, ballot_choice, full_path)
 
-                voters_manifest.write(full_filename + "\n")
+                num_pages = pdf_get_num_pages(full_path)
+
+                voters_manifest.write(f"{full_filename},{num_pages}\n")
 
                 zf.write(full_path, full_filename)
+
+                total_num_pages += num_pages
+                total_num_files += 1
+
+        voters_manifest.write(f"{total_num_files},{total_num_pages}\n")
 
         voters_manifest.close()
         zf.write(voters_manifest_path, "voters.manifest")

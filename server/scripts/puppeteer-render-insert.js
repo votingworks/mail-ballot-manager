@@ -11,7 +11,8 @@ console.log(url);
   await page.pdf({
     path: outputPath,
     preferCSSPageSize: true,
-    format: 'Letter'    
+    format: 'Letter',
+    printBackground: true
   });
 
   await browser.close();
