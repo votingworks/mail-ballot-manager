@@ -152,12 +152,22 @@ const SignatureLine = styled.div`
   margin: 0.025in 0.05in;
   padding-top: 0.025in;
   font-size: 8pt;
+  &::after,
   &::before {
-    content: '✖️';
+    content: '';
+    display: block;
     position: absolute;
-    top: -20pt;
-    font-size: 20pt;
-    left: -4pt;
+    bottom: 12pt;
+    left: 5pt;
+    width: 2pt;
+    height: 14pt;
+    border-right: 2pt solid #000000;
+  }
+  &::before {
+    transform: rotate(45deg);
+  }
+  &::after {
+    transform: rotate(-45deg);
   }
 `
 const DateLine = styled.div`
