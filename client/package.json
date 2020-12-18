@@ -40,7 +40,7 @@
     "@votingworks/ballot-encoder": "^1.2.0",
     "@votingworks/hmpb-interpreter": "^4.0.0",
     "dashify": "^2.0.0",
-    "dompurify": "^2.0.11",
+    "dompurify": "^2.0.17",
     "fast-text-encoding": "^1.0.2",
     "fetch-mock": "^9.9.1",
     "http-proxy-middleware": "^1.0.4",
