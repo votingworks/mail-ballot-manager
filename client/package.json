@@ -45,7 +45,7 @@
     "fetch-mock": "^9.9.1",
     "http-proxy-middleware": "^1.0.4",
     "lint-staged": "^10.2.2",
-    "marked": "^1.1.0",
+    "marked": "^4.0.10",
     "node-fetch": "^2.6.0",
     "normalize.css": "^8.0.1",
     "pagedjs": "^0.1.40",
